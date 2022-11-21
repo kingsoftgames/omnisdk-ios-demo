@@ -7,7 +7,6 @@
 
 #import "ChinaController.h"
 #import <OmniAPI/OmniAPI-Swift.h>
-
 @interface ChinaController ()<OmniSDKCallBackDelegate>
 
 @end
@@ -17,6 +16,7 @@
 {
     UIButton *payBtn;
     UIButton *payBtn2;
+    UIButton *userCenter;
     UITextView *textView;
 }
 - (void)viewDidLoad {
@@ -33,27 +33,25 @@
         self -> textView.layoutManager.allowsNonContiguousLayout = NO;
         [self -> textView scrollRangeToVisible: NSMakeRange(log.length + 90, 1)];
     };
-    
-    
+
     [self addSubViews];
 }
 
 //初始化
 - (void)initSDK{
-
     [[OmniSDK shared] sdkInitializeWithDelegate:self];
-    
 }
+
 //登录
 - (void)login:(UIButton *)btn{
     [OmniSDK.shared accountLogin:@"" :self];
-    
 }
+
 //登出
 - (void)logout{
-    
     [OmniSDK.shared accountLogout];
 }
+
 //支付
 - (void)pay:(UIButton *)btn{
     NSString *productID;
@@ -61,11 +59,11 @@
     NSString *productDes;
     if (btn.tag == 1) {
         productID = @"omniDemo.product6";
-        totalAmount = 600;
+        totalAmount = 6;
         productDes = @"60钻石";
     }else{
         productID = @"omniDemo.product30";
-        totalAmount = 3000;
+        totalAmount = 30;
         productDes = @"300钻石";
     }
     
@@ -89,21 +87,17 @@
     };
     
     NSString *json = [self converDictToJsonString:dict];
-    
-    
+
     [OmniSDK.shared pay:json];
-    
 }
 
 
 
 #pragma mark - 回调代理
 
-
 - (void)onInitNotifierSuccess {
     NSString *str = [NSString stringWithFormat:@"OmniSDK回调:%s",__func__];
     [LogUtil postLog:str];
-    [self login:nil];
 }
 
 - (void)onInitNotifierFailureWithResult:(NSString *)result{
@@ -132,9 +126,7 @@
 }
 
 
-- (void)onAccountDeleteSuccess {
-    
-}
+- (void)onAccountDeleteSuccess {}
 
 
 - (void)onAccountKickedOutWithResult:(BOOL)result {
@@ -213,7 +205,6 @@
     NSString *json = [self converDictToJsonString:payInfo];
     [OmniSDK.shared statisticsGameShippedFinish:json];
     [OmniSDK.shared statisticsPaidReportWithVolume:json];
-    
 }
 
 - (void)onPayFailureWithResult:(NSString *)result{
@@ -240,9 +231,6 @@
     NSString *str = [NSString stringWithFormat:@"OmniSDK回调:%s",__func__];
     [LogUtil postLog:str];
 }
-
-
-
 
 #pragma mark - 分享
 - (void)onSocialShareCancel {
@@ -297,7 +285,6 @@
     };
     NSString *json = [self converDictToJsonString:dict];
     [OmniSDK.shared onEnterGame:json];
-    
 }
 
 - (void)createRole{
@@ -324,6 +311,10 @@
     [OmniSDK.shared onCreateRole:json];
 }
 
+- (void)openUserInfo{
+    [OmniSDK.shared updateUserInfo:self];
+}
+
 - (void)checkOrderCount{
     [NSNotificationCenter.defaultCenter postNotificationName:@"queryOrderList" object:nil];
 }
@@ -344,7 +335,7 @@
     UIButton *createRole = [self addNewButton:@"创建角色" tag:0 sel:@selector(createRole) relative:self.view column:2];
     UIButton *copyLog = [self addNewButton:@"复制日志" tag:0 sel:@selector(copyLog) relative:createRole column:2];
     UIButton *clearLog = [self addNewButton:@"清空日志" tag:0 sel:@selector(clearLog) relative:copyLog column:2];
-    
+    userCenter = [self addNewButton:@"用户中心" tag:0 sel:@selector(openUserInfo) relative:clearLog column:2];
 }
 
 - (UIButton *)addNewButton:(NSString *)title tag:(NSInteger)tag sel:(SEL)selector relative:(UIView *)relative column:(NSInteger)column{
@@ -404,7 +395,6 @@
     NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;
     return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-    
 }
 
 @end
