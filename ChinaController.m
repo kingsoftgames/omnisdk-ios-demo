@@ -88,7 +88,7 @@
     
     NSString *json = [self converDictToJsonString:dict];
 
-    [OmniSDK.shared pay:json];    
+    [OmniSDK.shared pay:json];
 }
 
 
@@ -126,9 +126,7 @@
 }
 
 
-- (void)onAccountDeleteSuccess {
-    
-}
+- (void)onAccountDeleteSuccess {}
 
 
 - (void)onAccountKickedOutWithResult:(BOOL)result {
@@ -207,7 +205,6 @@
     NSString *json = [self converDictToJsonString:payInfo];
     [OmniSDK.shared statisticsGameShippedFinish:json];
     [OmniSDK.shared statisticsPaidReportWithVolume:json];
-    
 }
 
 - (void)onPayFailureWithResult:(NSString *)result{
@@ -234,9 +231,6 @@
     NSString *str = [NSString stringWithFormat:@"OmniSDK回调:%s",__func__];
     [LogUtil postLog:str];
 }
-
-
-
 
 #pragma mark - 分享
 - (void)onSocialShareCancel {
@@ -291,7 +285,6 @@
     };
     NSString *json = [self converDictToJsonString:dict];
     [OmniSDK.shared onEnterGame:json];
-    
 }
 
 - (void)createRole{
@@ -402,7 +395,6 @@
     NSData *data = [json dataUsingEncoding:NSUTF8StringEncoding];
     NSError *error;
     return [NSJSONSerialization JSONObjectWithData:data options:NSJSONReadingAllowFragments error:&error];
-    
 }
 
 @end
