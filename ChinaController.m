@@ -46,7 +46,7 @@
 }
 //登录
 - (void)login:(UIButton *)btn{
-    [OmniSDK.shared accountLogin:@""];
+    [OmniSDK.shared accountLogin:@"" :self];
     
 }
 //登出
