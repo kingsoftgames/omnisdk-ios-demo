@@ -34,6 +34,18 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>请求IDFA</string>
+	<key>OmniSDKAppId</key>
+	<string>YourAppId</string>
+	<key>OmniSDKAppKey</key>
+	<string>YourAppKey</string>
+	<key>OmniSDKPlanId</key>
+	<string>1234</string>
+	<key>OmniSDKRegion</key>
+	<string>domestic</string>
+	<key>OmniSDKServerUrl</key>
+	<string>https://a2.xgsdk.seayoo.com</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>
@@ -46,13 +58,14 @@
 	<array>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
-		<string>UIInterfaceOrientationPortrait</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
+		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 </dict>
 </plist>
