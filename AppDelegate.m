@@ -6,21 +6,21 @@
 //
 
 #import "AppDelegate.h"
-#import "ChinaController.h"
+#import "DomesticController.h"
 @interface AppDelegate ()
-
+@property (nonatomic, assign) Boolean isLandScape;
 @end
 
 @implementation AppDelegate
 
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    self.isLandScape = [Utils isLandScape];
     self.window = [[UIWindow alloc] initWithFrame: UIScreen.mainScreen.bounds];
     
-    ChinaController *vc = [[ChinaController alloc] init];
+    DomesticController *vc = [[DomesticController alloc] init];
     self.window.rootViewController = vc;
     [self.window makeKeyAndVisible];
-    
     return YES;
 }
 
@@ -29,7 +29,7 @@
 
 
 - (UIInterfaceOrientationMask)application:(UIApplication *)application supportedInterfaceOrientationsForWindow:(UIWindow *)window{
-    return UIInterfaceOrientationMaskLandscape;
+    return self.isLandScape ? UIInterfaceOrientationMaskLandscape : UIInterfaceOrientationMaskPortrait;
 }
 
 
