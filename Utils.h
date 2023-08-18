@@ -20,6 +20,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)getOmniSDKCache;
 + (void)removeCache;
 + (Boolean)isDomestic;
++ (Boolean)isEqualWithServerUrl:(NSString *)url;
 @end
 
 NS_ASSUME_NONNULL_END

@@ -9,6 +9,7 @@
 #include <CommonCrypto/CommonHMAC.h>
 
 #define kOmniSDKRegion @"OmniSDKRegion"
+#define kOmniSDKServerUrl @"OmniSDKServerUrl"
 
 @implementation Utils
 
@@ -119,12 +120,16 @@
 }
 
 + (Boolean)isLandScape{
-    NSDictionary *config = [self getOmniSDKCache];
-    return ![config[@"deviceOrientation"] isEqual:@"2"];
+    return ([self isDomestic] && ![[self getOmniSDKCache][@"deviceOrientation"] isEqual:@"2"]);
 }
 
 + (Boolean)isDomestic{
     return ![[NSBundle mainBundle].infoDictionary[kOmniSDKRegion] isEqual:@"oversea"];
+}
+
++ (Boolean)isEqualWithServerUrl:(NSString *)url{
+    NSString *configUrl = [NSBundle mainBundle].infoDictionary[kOmniSDKServerUrl];
+    return [configUrl isEqual:url];
 }
 
 @end
