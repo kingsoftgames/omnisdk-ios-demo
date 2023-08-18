@@ -4,7 +4,14 @@ The Demo includes code examples illustrating features of the OmniSDK iOS API.
 
 # Prepare
 
-- Copy `omnisdk_config.json` to workspace
+- Add the following configuration to the `Info.plist` file:
+
+| Key           | Type   | Necessity | explanation |
+| ------------- | ------ | -------- | -------- |
+| OmniSDKAppId  | String | Y        | appid    |
+| OmniSDKAppKey | String | Y        | appkey   |
+| OmniSDKPlanId | String | Y        | planid |
+
 - Copy your OmniSDK Frameworks to workspace
 - Switch to your iOS Provisioning file
 
