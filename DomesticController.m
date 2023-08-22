@@ -7,6 +7,10 @@
 
 #import "DomesticController.h"
 
+#define kDevHostUrl @"https://a2.xgsdk.dev.seayoo.com"
+#define kProdHostUrl @"https://a2.xgsdk.seayoo.com"
+#define kOmniSDKAppId @"OmniSDKAppId"
+
 @interface DomesticController ()
 
 @end
@@ -118,7 +122,7 @@
     NSDictionary *dict = @{
         @"roleId":@"123",
         @"serverId" : @"123",
-        @"gameCallbackUrl" : @"https://www.baidu.com",
+        @"gameCallbackUrl" : [self gameCallbackUrl],
         @"productId" : productID,
         @"productDesc" : productDes,
         @"gameTradeNo" : [Utils getCurrentTimes],
@@ -135,6 +139,12 @@
     };
     NSString *json = [Utils convertDictToJsonString:dict];
     return json;
+}
+
+- (NSString *)gameCallbackUrl{
+    NSString *sdkHostDomain = [Utils isEqualWithServerUrl: kDevHostUrl] ? kDevHostUrl : kProdHostUrl;
+    NSString *gameCallbackUrl = [sdkHostDomain stringByAppendingString:@"/mock/recharge/notify"];
+    return  gameCallbackUrl;
 }
 
 @end

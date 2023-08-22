@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		918CD5672A38793000FA428C /* omnisdk_config.json in Resources */ = {isa = PBXBuildFile; fileRef = 918CD55E2A38793000FA428C /* omnisdk_config.json */; };
+		7D14C78B2A8F4A6E0060D188 /* OverseaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D14C7892A8F4A6E0060D188 /* OverseaController.m */; };
 		918CD5682A38793000FA428C /* BaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD55F2A38793000FA428C /* BaseController.m */; };
 		918CD5692A38793000FA428C /* DomesticController.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD5602A38793000FA428C /* DomesticController.m */; };
 		918CD56A2A38793000FA428C /* ConsoleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD5612A38793000FA428C /* ConsoleView.m */; };
@@ -34,8 +34,9 @@
 		234BB9305CD21E8CB2DD1604 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		41775EE5EEE2AD99E0928975 /* OmniSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmniSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78843F8971D3BF6514F1D854 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		7D14C7892A8F4A6E0060D188 /* OverseaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverseaController.m; path = "../../github/omnisdk-ios-demo/OverseaController.m"; sourceTree = "<group>"; };
+		7D14C78A2A8F4A6E0060D188 /* OverseaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverseaController.h; path = "../../github/omnisdk-ios-demo/OverseaController.h"; sourceTree = "<group>"; };
 		918CD55C2A38793000FA428C /* DomesticController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DomesticController.h; sourceTree = "<group>"; };
-		918CD55E2A38793000FA428C /* omnisdk_config.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = omnisdk_config.json; sourceTree = "<group>"; };
 		918CD55F2A38793000FA428C /* BaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseController.m; sourceTree = "<group>"; };
 		918CD5602A38793000FA428C /* DomesticController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DomesticController.m; sourceTree = "<group>"; };
 		918CD5612A38793000FA428C /* ConsoleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleView.m; sourceTree = "<group>"; };
@@ -85,7 +86,8 @@
 				918CD5612A38793000FA428C /* ConsoleView.m */,
 				918CD55C2A38793000FA428C /* DomesticController.h */,
 				918CD5602A38793000FA428C /* DomesticController.m */,
-				918CD55E2A38793000FA428C /* omnisdk_config.json */,
+				7D14C78A2A8F4A6E0060D188 /* OverseaController.h */,
+				7D14C7892A8F4A6E0060D188 /* OverseaController.m */,
 				918CD5632A38793000FA428C /* Utils.h */,
 				918CD5642A38793000FA428C /* Utils.m */,
 				ABB145CC4D8BF1768348F922 /* main.m */,
@@ -151,7 +153,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CAB4E13C17C9D694141A1102 /* Assets.xcassets in Resources */,
-				918CD5672A38793000FA428C /* omnisdk_config.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -167,6 +168,7 @@
 				918CD5682A38793000FA428C /* BaseController.m in Sources */,
 				918CD56A2A38793000FA428C /* ConsoleView.m in Sources */,
 				918CD56B2A38793000FA428C /* Utils.m in Sources */,
+				7D14C78B2A8F4A6E0060D188 /* OverseaController.m in Sources */,
 				BDEDEAA4B8038000A9294923 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -15,6 +15,10 @@ The Demo includes code examples illustrating features of the OmniSDK iOS API.
 - Copy your OmniSDK Frameworks to workspace
 - Switch to your iOS Provisioning file
 
+# History
+[v2.6](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v2.6)  
+[v2.0](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v2.0)
+
 # Troubleshooting
 
 ## Enable & Sign
