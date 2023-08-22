@@ -10,7 +10,6 @@
 
 #define kOmniSDKRegion @"OmniSDKRegion"
 #define kOmniSDKServerUrl @"OmniSDKServerUrl"
-#define kOrientationMode @"OrientationMode"
 
 @implementation Utils
 
