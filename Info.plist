@@ -22,6 +22,8 @@
 	<string>1.0</string>
 	<key>CFBundleVersion</key>
 	<string>1</string>
+	<key>LSApplicationCategoryType</key>
+	<string></string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>LineSDKConfig</key>
@@ -46,6 +48,8 @@
 	<string>domestic</string>
 	<key>OmniSDKServerUrl</key>
 	<string>https://a2.xgsdk.seayoo.com</string>
+	<key>OrientationMode</key>
+	<string>landscape</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

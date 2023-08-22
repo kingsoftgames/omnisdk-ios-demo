@@ -10,6 +10,7 @@
 
 #define kOmniSDKRegion @"OmniSDKRegion"
 #define kOmniSDKServerUrl @"OmniSDKServerUrl"
+#define kOrientationMode @"OrientationMode"
 
 @implementation Utils
 
@@ -87,27 +88,6 @@
     return hash;
 }
 
-+ (NSDictionary *)getOmniSDKCache{
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSString *cachePath = [paths firstObject];
-    NSString *filePath = [cachePath stringByAppendingPathComponent:@"com.seayoo.omnisdk/omnisdkConfig.json"];
-
-    NSError *error = nil;
-    NSData *jsonData = [NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&error];
-    if (error) {
-        NSLog(@"读取文件失败：%@", error.localizedDescription);
-    } else {
-        NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:jsonData options:kNilOptions error:&error];
-        if (error) {
-            NSLog(@"解析 JSON 数据失败：%@", error.localizedDescription);
-        } else {
-            NSLog(@"解析 JSON 数据成功");
-            return dictionary;
-        }
-    }
-    return nil;
-}
-
 + (void)removeCache {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachePath = [paths firstObject];
@@ -120,11 +100,11 @@
 }
 
 + (Boolean)isLandScape{
-    return ([self isDomestic] && ![[self getOmniSDKCache][@"deviceOrientation"] isEqual:@"2"]);
+    return [[NSBundle mainBundle].infoDictionary[kOrientationMode] isEqual:@"landscape"];
 }
 
 + (Boolean)isDomestic{
-    return ![[NSBundle mainBundle].infoDictionary[kOmniSDKRegion] isEqual:@"oversea"];
+    return [[NSBundle mainBundle].infoDictionary[kOmniSDKRegion] isEqual:@"domestic"];
 }
 
 + (Boolean)isEqualWithServerUrl:(NSString *)url{
