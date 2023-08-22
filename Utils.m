@@ -87,7 +87,14 @@
     return hash;
 }
 
-+ (NSDictionary *)getOmniSDKCache{
++ (NSDictionary *)getOmniSDKCache {
+    static NSDictionary *cachedData = nil;
+    static BOOL isRequestMade = NO;
+    
+    if (isRequestMade) {
+        return cachedData;
+    }
+
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
     NSString *cachePath = [paths firstObject];
     NSString *filePath = [cachePath stringByAppendingPathComponent:@"com.seayoo.omnisdk/omnisdkConfig.json"];
@@ -102,10 +109,12 @@
             NSLog(@"解析 JSON 数据失败：%@", error.localizedDescription);
         } else {
             NSLog(@"解析 JSON 数据成功");
-            return dictionary;
+            cachedData = dictionary;
         }
     }
-    return nil;
+    
+    isRequestMade = !isRequestMade;
+    return cachedData;
 }
 
 + (void)removeCache {
