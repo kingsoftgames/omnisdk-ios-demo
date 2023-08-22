@@ -100,7 +100,8 @@
 }
 
 + (Boolean)isLandScape{
-    return [[NSBundle mainBundle].infoDictionary[kOrientationMode] isEqual:@"landscape"];
+    UIInterfaceOrientation orientation = [[UIApplication sharedApplication] statusBarOrientation];
+    return UIInterfaceOrientationIsLandscape(orientation);
 }
 
 + (Boolean)isDomestic{
