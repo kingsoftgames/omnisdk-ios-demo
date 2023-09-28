@@ -9,7 +9,6 @@
 
 #define kDevHostUrl @"https://a2.xgsdk.dev.seayoo.com"
 #define kProdHostUrl @"https://a2.xgsdk.seayoo.com"
-#define kOmniSDKAppId @"OmniSDKAppId"
 
 @interface DomesticController ()
 
