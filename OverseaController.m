@@ -7,15 +7,8 @@
 
 #import "OverseaController.h"
 
-#define GUEST @"1"
-#define APPLE @"7"
-#define FACEBOOK @"3"
-#define LINE @"23"
-#define NAVER @"54"
-#define GAMECENTER @"5"
-#define SHARE_FACEBOOK @"1"
-#define SHARE_LINE @"2"
-#define DEFAULT @"0"
+#define kProdHostUrl @"https://api.seayoo.io/omni"
+#define kProductId @"com.oversea.product6"
 
 @interface OverseaController ()
 
@@ -27,123 +20,135 @@
     [super viewDidLoad];
     
     self.items = @[
-        @{@"登录":NSStringFromSelector(@selector(defaultLogin))},
+        @{@"登录":NSStringFromSelector(@selector(login))},
         @{@"登出":NSStringFromSelector(@selector(logout))},
         @{@"账号中心":NSStringFromSelector(@selector(accountCenter))},
-        @{@"支付":NSStringFromSelector(@selector(pay))},
-        @{@"分享Facebook":NSStringFromSelector(@selector(shareFacebook))},
-        @{@"分享Line":NSStringFromSelector(@selector(shareLine))},
+        @{@"关联账号":NSStringFromSelector(@selector(linkCustom))},
+        @{@"支付":NSStringFromSelector(@selector(purchase))},
+        @{@"分享Facebook":NSStringFromSelector(@selector(socialShareFacebook))},
     ];
     [self initSDK];
 }
 
-//初始化
+/// 初始化
 - (void)initSDK{
     OmniSDKOptions *options = [[OmniSDKOptions alloc] init];
-    options.toastEnabled = YES;
-    options.logCollectEnabled = YES;
-    options.logFileEnabled = YES;
-    options.storeKit2Enabled = NO;
-    [[OmniSDK shared] sdkInitializeWithOptions:options delegate: self];
+    options.delegate = self;
+    [[OmniSDKv3 shared] startWithOptions:options];
 }
 
-- (void)defaultLogin {
-    [self login: DEFAULT];
+///登录
+- (void)login {
+    [[OmniSDKv3 shared] loginWithController:self options:nil];
 }
 
-- (void)guestLogin {
-    [self login: GUEST];
+///登出
+- (void)logout {
+    if (!self.isLogin) {
+        [self.console updateLogWithLevel:INFO message:@"未登录"];
+        return;
+    }
+    [[OmniSDKv3 shared] logout];
 }
+
+#pragma mark - 用户中心
 
 - (void)accountCenter {
     if (!self.isLogin) {
         [Utils showAlertWithContrller:self msg:@"请先登录"];
         return;
     }
-    [[OmniSDK shared] updateUserInfo: self];
+    [OmniSDKv3.shared openAccountCenterWithController:self];
 }
 
-- (void)appleLogin {
-    [self login: APPLE];
-}
+#pragma mark - 应用内购买
 
-- (void)facebookLogin {
-    [self login: FACEBOOK];
-}
-
-- (void)lineLogin {
-    [self login: LINE];
-}
-
-- (void)naverLogin {
-    [self login: NAVER];
-}
-
-- (void)gameCenterLogin {
-    [self login: GAMECENTER];
-}
-
-- (void)login:(NSString *)type {
-    NSDictionary *dict = @{
-        @"accountType":type
-    };
-    NSString *json = [Utils convertDictToJsonString:dict];
-    [[OmniSDK shared] accountLogin:json :self];
-}
-
-- (void)logout {
+/// 购买
+- (void)purchase {
     if (!self.isLogin) {
-        [Utils showAlertWithContrller:self msg:@"未登录"];
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
         return;
     }
-    [[OmniSDK shared] accountLogout];
+    NSString *gameTradeNo = [Utils getCurrentTimes];
+    [OmniSDKv3.shared purchaseWithOptions:[self purchaseOptions:gameTradeNo]];
 }
 
-- (void)pay {
-    NSDictionary *para = @{
-        @"role_id":@"123",
-        @"cp_order_id":[Utils getCurrentTimes],
-        @"server_id":@"123",
-        @"goods_id":@"com.oversea.product6",
-        @"pay_description":@"test",
-        @"notify_cp_url":@"https://api.seayoo.io/omni/pout/test/cp_notify_ok"
-    };
-    NSString *json = [Utils convertDictToJsonString:para];
-    [OmniSDK.shared pay:json];
-}
-
+#pragma mark - 删除账号
+    
 - (void)deleteAccount {
-    NSDictionary *para = @{
-        @"roleID":@"1234",
-        @"serverID":@"asff"
-    };
-    NSString *json = [Utils convertDictToJsonString:para];
-    [OmniSDK.shared accountDelete:json];
+    [OmniSDKv3.shared deleteAccountWithOptions:nil];
 }
 
-- (void)bindApple {
-    [[OmniSDK shared] accountBind:APPLE];
+#pragma mark - 关联账号
+/// 自定义关联
+- (void)linkCustom {
+    [OmniSDKv3.shared linkAccountWithOptions:nil];
 }
 
-- (void)bindFacebook {
-    [[OmniSDK shared] accountBind:FACEBOOK];
+/// 关联 AppleID
+- (void)linkApple {
+    OmniSDKLinkAccountOptions *options = [[OmniSDKLinkAccountOptions alloc] initWithIdp:OmniSDKIdentityProviderApple];
+    [OmniSDKv3.shared linkAccountWithOptions:options];
 }
 
-- (void)bindLine {
-    [[OmniSDK shared] accountBind:LINE];
+/// 关联 Facebook
+- (void)linkFacebook {
+    OmniSDKLinkAccountOptions *options = [[OmniSDKLinkAccountOptions alloc] initWithIdp:OmniSDKIdentityProviderFacebook];
+    [OmniSDKv3.shared linkAccountWithOptions:options];
 }
 
-- (void)bindNaver {
-    [[OmniSDK shared] accountBind:NAVER];
+#pragma mark - 分享
+
+/// 系统分享
+- (void)socialShareSystem {
+    [self socialShare:OmniSDKSocialSharePlatformSystem];
 }
 
-- (void)shareFacebook {
-    [[OmniSDK shared] socialShare:SHARE_FACEBOOK];
+/// 分享到 Facebook
+- (void)socialShareFacebook {
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
+    [self socialShare:OmniSDKSocialSharePlatformFacebook];
 }
 
-- (void)shareLine {
-    [[OmniSDK shared] socialShare:SHARE_LINE];
+/// 分享到 Line
+- (void)socialShareLine {
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
+    [self socialShare:OmniSDKSocialSharePlatformLine];
 }
 
+- (void)socialShare:(OmniSDKSocialSharePlatform)platform {
+    OmniSDKSocialShareOptions *options = [[OmniSDKSocialShareOptions alloc] init];
+    options.platform = platform;
+    options.linkUrl = [NSURL URLWithString:@"https://developers.facebook.com"];
+    options.text = @"test share";
+    options.imageUrl = [NSURL URLWithString:@"https://lmg.jj20.com/up/allimg/4k/s/02/2109250006343S5-0-lp.jpg"];
+    [[OmniSDKv3 shared] socialShareWithController:self options:options];
+}
+
+#pragma mark - Other Function
+    
+- (OmniSDKPurchaseOptions *)purchaseOptions:(NSString *)gameOrder {
+    OmniSDKPurchaseOptions *options = [[OmniSDKPurchaseOptions alloc] init];
+    options.gameRoleId = @"123";
+    options.gameOrderId = gameOrder;
+    options.gameServerId = @"123";
+    options.productId = kProductId;
+    options.productDesc = @"test";
+    options.purchaseCallbackUrl = [self gameCallbackUrl];
+    self.purchaseOptions = options;
+    return options;
+}
+
+- (NSString *)gameCallbackUrl {
+    NSString *sdkHostDomain = self.serverUrl == nil ? kProdHostUrl : self.serverUrl;
+    NSString *gameCallbackUrl = [sdkHostDomain stringByAppendingString:@"/pout/test/cp_notify_ok"];
+    return  gameCallbackUrl;
+}
 
 @end

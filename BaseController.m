@@ -7,6 +7,11 @@
 
 #import "BaseController.h"
 
+#define kOmniSDKAppId @"OmniSDKAppId"
+#define kOmniSDKAppKey @"OmniSDKAppKey"
+#define kOmniSDKPlanId @"OmniSDKPlanId"
+#define kOmniSDKServerUrl @"OmniSDKServerUrl"
+
 #define kCellBackgroundColor [UIColor colorWithRed:95/255.0 green:175/255.0 blue:135/255.0 alpha:1.0]
 
 typedef void (^DidSelectIndexBlock)(NSInteger);
@@ -36,92 +41,68 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 
 #pragma mark - OmniSDKCallBackDelegate
 
-- (void)onAccountBindCancel {
-    [self logCallBack:@"绑定账号取消" msg:@""];
+- (void)onStartWithResult:(OmniSDKStartResult *)result error:(OmniSDKError *)error {
+    NSString *msg = [NSString stringWithFormat:@"appId=%@, planId=%@, sdkVersion=%@", result.appId, result.planId, result.sdkVersion];
+    [self logResultWithOperation:@"V3初始化" message:msg error:error];
 }
 
-- (void)onAccountBindFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"绑定账号失败" msg:result];
+- (void)onLoginWithResult:(OmniSDKLoginResult *)result error:(OmniSDKError *)error {
+    NSString *msg = [NSString stringWithFormat:@"userId = %@", result.loginInfo.userId];
+    [self logResultWithOperation:@"登录" message:msg error:error];
 }
 
-- (void)onAccountBindSuccess {
-    [self logCallBack:@"绑定账号成功" msg:@""];
+- (void)onLogoutWithResult:(OmniSDKLogoutResult *)result error:(OmniSDKError *)error {
+    [self logResultWithOperation:@"登出" message:result.userId error:error];
 }
 
-- (void)onAccountDeleteFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"删除账号失败" msg:@""];
+- (void)onLinkAccountWithResult:(OmniSDKLinkAccountResult *)result error:(OmniSDKError *)error {
+    [self logResultWithOperation:@"关联账号" message:[NSString stringWithFormat:@"%ld", result.idp] error:error];
 }
 
-- (void)onAccountDeleteSuccess {
-    [self logCallBack:@"删除账号成功" msg:@""];
+- (void)onDeleteAccountWithResult:(OmniSDKDeleteAccountResult *)result error:(OmniSDKError *)error {
+    [self logResultWithOperation:@"删除账号" message:result.userId error:error];
 }
 
-- (void)onAccountKickedOutWithResult:(BOOL)result {
-    NSString *r = [NSString stringWithFormat:@"%d",result];
-    [self logCallBack:@"强制踢出" msg:r];
+- (void)onRestoreAccountWithResult:(OmniSDKRestoreAccountResult *)result error:(OmniSDKError *)error {
+    [self logResultWithOperation:@"撤销删除账号" message:result.userId error:error];
 }
 
-- (void)onAccountLoginCancel {
-    [self logCallBack:@"登录取消" msg:@""];
+- (void)onPurchaseWithResult:(OmniSDKPurchaseResult *)result error:(OmniSDKError *)error {
+    [self logResultWithOperation:@"应用内购买" message:result.orderId error:error];
+    if (error != nil) {
+        return;
+    }
+    OmniSDKPurchaseEvent *event = [[OmniSDKPurchaseEvent alloc] init];
+    event.orderId = result.orderId;
+    event.purchase = self.purchaseOptions;
+    event.userId = [OmniSDKv3.shared getLoginInfo].userId;
+    [OmniSDKv3.shared trackEventWithEvent:event];
 }
 
-- (void)onAccountLoginFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"登录失败" msg:result];
+- (void)onSocialShareWithResult:(OmniSDKSocialShareResult *)result error:(OmniSDKError *)error {
+    [self logResultWithOperation:@"社交分享" message:result.options.linkUrl.absoluteString error:error];
 }
 
-- (void)onAccountLoginSuccess {
-    [self logCallBack:@"登录成功" msg:@""];
-}
-
-- (void)onAccountLogoutCancel {
-    [self logCallBack:@"登出取消" msg:@""];
-}
-
-- (void)onAccountLogoutFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"登出失败" msg:result];
-}
-
-- (void)onAccountLogoutSuccess {
-    [self logCallBack:@"登出成功" msg:@""];
-}
-
-- (void)onInitNotifierFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"初始化失败" msg:result];
-}
-
-- (void)onInitNotifierSuccess {
-    [self logCallBack:@"初始化成功" msg:@""];
-}
-
-- (void)onPayCancelWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"支付取消" msg:result];
-}
-
-- (void)onPayFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"支付失败" msg:result];
-}
-
-- (void)onPaySuccessWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"支付成功" msg:result];
-}
-
-- (void)onSocialShareCancel {
-    [self logCallBack:@"分享取消" msg:@""];
-}
-
-- (void)onSocialShareFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"分享失败" msg:result];
-}
-
-- (void)onSocialShareSuccess {
-    [self logCallBack:@"分享成功" msg:@""];
-}
-
-- (void)onCollectLogWithResult:(OmniSDKLogRecord *)result{
+- (void)onCollectLogRecordWithResult:(OmniSDKLogRecord *)result {
     [self.console updateLogWithLevel:result.level message:result.msg];
 }
 
+- (void)logResultWithOperation:(NSString *)opt message:(NSString *)msg error:(OmniSDKError *)error{
+    if (error == nil) {
+        [self logCallBack:[NSString stringWithFormat:@"%@成功", opt] msg:msg];
+    } else {
+        [self logCallBack:[NSString stringWithFormat:@"%@失败", opt] msg:error.message];
+    }
+}
+
 #pragma mark - Other Function
+- (void) loadParameters {
+    NSDictionary *infoDictionary = [NSBundle mainBundle].infoDictionary;
+    self.appId = infoDictionary[kOmniSDKAppId];
+    self.appKey = infoDictionary[kOmniSDKAppKey];
+    self.planId = infoDictionary[kOmniSDKPlanId];
+    self.serverUrl = infoDictionary[kOmniSDKServerUrl];
+}
 
 - (void)getStatusBarHeight {
     self.statusBarHeight = 0.0;
