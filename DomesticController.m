@@ -7,8 +7,6 @@
 
 #import "DomesticController.h"
 
-#define kProdHostUrl @"https://a2.xgsdk.seayoo.com"
-
 @interface DomesticController ()
 
 @end
@@ -115,7 +113,7 @@
     options.productUnitPrice = totalAmount;
     options.purchaseAmount = totalAmount;
     options.purchaseQuantity = 1;
-    options.purchaseCallbackUrl = [self gameCallbackUrl];
+    options.purchaseCallbackUrl = @"https://a2.xgsdk.seayoo.com/mock/recharge/notify";
     options.gameOrderId = [Utils getCurrentTimes];
     options.gameCurrencyUnit = @"魔石";
     options.gameRoleId = @"123";
@@ -127,12 +125,6 @@
     options.extJson = @"";
     self.purchaseOptions = options;
     return options;
-}
-
-- (NSString *)gameCallbackUrl{
-    NSString *sdkHostDomain = self.serverUrl == nil ? kProdHostUrl : self.serverUrl;
-    NSString *gameCallbackUrl = [sdkHostDomain stringByAppendingString:@"/mock/recharge/notify"];
-    return  gameCallbackUrl;
 }
 
 @end

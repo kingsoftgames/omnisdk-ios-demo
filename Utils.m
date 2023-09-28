@@ -9,7 +9,6 @@
 #include <CommonCrypto/CommonHMAC.h>
 
 #define kOmniSDKRegion @"OmniSDKRegion"
-#define kOmniSDKServerUrl @"OmniSDKServerUrl"
 
 @implementation Utils
 

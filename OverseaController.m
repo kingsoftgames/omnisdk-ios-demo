@@ -7,9 +7,6 @@
 
 #import "OverseaController.h"
 
-#define kProdHostUrl @"https://api.seayoo.io/omni"
-#define kProductId @"com.oversea.product6"
-
 @interface OverseaController ()
 
 @end
@@ -185,17 +182,11 @@
     options.gameRoleId = @"123";
     options.gameOrderId = gameOrder;
     options.gameServerId = @"123";
-    options.productId = kProductId;
+    options.productId = @"com.oversea.product6";
     options.productDesc = @"test";
-    options.purchaseCallbackUrl = [self gameCallbackUrl];
+    options.purchaseCallbackUrl = @"https://api.seayoo.io/omni/pout/test/cp_notify_ok";
     self.purchaseOptions = options;
     return options;
-}
-
-- (NSString *)gameCallbackUrl {
-    NSString *sdkHostDomain = self.serverUrl == nil ? kProdHostUrl : self.serverUrl;
-    NSString *gameCallbackUrl = [sdkHostDomain stringByAppendingString:@"/pout/test/cp_notify_ok"];
-    return  gameCallbackUrl;
 }
 
 @end

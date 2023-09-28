@@ -24,6 +24,7 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
     [self addLogConsole];
     [self addButtonContainerView];
     [self addVersionLabel];
+    self.roleLevel = 1;
 }
 
 - (void)viewWillLayoutSubviews {
@@ -43,8 +44,23 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 }
 
 - (void)onLoginWithResult:(OmniSDKLoginResult *)result error:(OmniSDKError *)error {
+    
     NSString *msg = [NSString stringWithFormat:@"userId = %@", result.loginInfo.userId];
     [self logResultWithOperation:@"登录" message:msg error:error];
+    
+    if (error != nil) {
+        // 失败
+        NSInteger code = error.code; // 错误码
+        NSString *message = error.message; // 错误信息
+        NSString *detailMessage = error.description; // 错误详细信息
+        return;
+    }
+    
+    // 成功（根据实际需求取 result 中的参数）
+    NSString *userId = result.loginInfo.userId; // 用户ID
+    NSString *token = result.loginInfo.token; // 用户令牌
+    NSString *channelId = result.loginInfo.channelId; // 渠道ID
+    NSString *signature = result.loginInfo.signature; // 签名
 }
 
 - (void)onLogoutWithResult:(OmniSDKLogoutResult *)result error:(OmniSDKError *)error {
@@ -64,15 +80,24 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 }
 
 - (void)onPurchaseWithResult:(OmniSDKPurchaseResult *)result error:(OmniSDKError *)error {
+    
     [self logResultWithOperation:@"应用内购买" message:result.orderId error:error];
+    
     if (error != nil) {
+        // 失败
+        NSInteger code = error.code; // 错误码
+        NSString *message = error.message; // 错误信息
+        NSString *detailMessage = error.description; // 错误详细信息
         return;
     }
-    OmniSDKPurchaseEvent *event = [[OmniSDKPurchaseEvent alloc] init];
-    event.orderId = result.orderId;
-    event.purchase = self.purchaseOptions;
-    event.userId = [OmniSDKv3.shared getLoginInfo].userId;
-    [OmniSDKv3.shared trackEventWithEvent:event];
+    
+    // 成功(根据实际需求取 result 中参数)
+    NSString *sdkOrderId = result.orderId; // SDK订单ID
+    NSString *gameOrderId = result.purchaseInfo.gameOrderId; // 游戏订单ID
+    NSString *productId = result.purchaseInfo.productId; // 商品ID
+    
+    // 游戏内发货成功后调用以下事件
+    [self trackPurchaseEvent: sdkOrderId];
 }
 
 - (void)onSocialShareWithResult:(OmniSDKSocialShareResult *)result error:(OmniSDKError *)error {
@@ -92,9 +117,12 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 }
 
 #pragma mark - Other Function
-- (void) loadParameters {
-    NSDictionary *infoDictionary = [NSBundle mainBundle].infoDictionary;
-    self.serverUrl = infoDictionary[kOmniSDKServerUrl];
+- (void) trackPurchaseEvent: (NSString *) orderId{
+    OmniSDKPurchaseEvent *event = [[OmniSDKPurchaseEvent alloc] init];
+    event.orderId = orderId;
+    event.purchase = self.purchaseOptions;
+    event.userId = [OmniSDKv3.shared getLoginInfo].userId;
+    [OmniSDKv3.shared trackEventWithEvent:event];
 }
 
 - (void)getStatusBarHeight {
@@ -180,21 +208,22 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 //进入游戏
 - (void)enterGame{
     OmniSDKEnterGameEvent *event = [[OmniSDKEnterGameEvent alloc] init];
-    event.roleInfo = [self testRoleInfo];
+    event.roleInfo = [self testRoleInfo: @"1"];
     [[OmniSDKv3 shared] trackEventWithEvent:event];
 }
 
 //创建角色
 - (void)createRole{
     OmniSDKCreateRoleEvent *event = [[OmniSDKCreateRoleEvent alloc] init];
-    event.roleInfo = [self testRoleInfo];
+    event.roleInfo = [self testRoleInfo: @"1"];
     [[OmniSDKv3 shared] trackEventWithEvent:event];
 }
 
 //角色升级
 - (void)roleLevelUp{
     OmniSDKRoleLevelUpEvent *event = [[OmniSDKRoleLevelUpEvent alloc] init];
-    event.roleInfo = [self testRoleInfo];
+    NSString *level = [NSString stringWithFormat:@"%li", ++self.roleLevel];
+    event.roleInfo = [self testRoleInfo: level];
     [[OmniSDKv3 shared] trackEventWithEvent:event];
 }
 
@@ -206,12 +235,12 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
     UIPasteboard.generalPasteboard.string = self.console.textView.text;
 }
 
-- (OmniSDKRoleInfo *)testRoleInfo{
+- (OmniSDKRoleInfo *)testRoleInfo: (NSString *)level {
     OmniSDKRoleInfo *role = [[OmniSDKRoleInfo alloc] init];
     role.userId = @"123";
     role.gameRoleId = @"11";
     role.gameRoleName = @"小王";
-    role.gameRoleLevel = @"4";
+    role.gameRoleLevel = level;
     role.gameRoleVipLevel = @"v8";
     role.gameServerName = @"1服";
     role.gameServerId = @"8区";
