@@ -7,7 +7,6 @@
 
 #import "DomesticController.h"
 
-#define kDevHostUrl @"https://a2.xgsdk.dev.seayoo.com"
 #define kProdHostUrl @"https://a2.xgsdk.seayoo.com"
 
 @interface DomesticController ()

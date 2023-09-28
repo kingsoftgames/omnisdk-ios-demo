@@ -7,11 +7,7 @@
 
 #import "BaseController.h"
 
-#define kOmniSDKAppId @"OmniSDKAppId"
-#define kOmniSDKAppKey @"OmniSDKAppKey"
-#define kOmniSDKPlanId @"OmniSDKPlanId"
 #define kOmniSDKServerUrl @"OmniSDKServerUrl"
-
 #define kCellBackgroundColor [UIColor colorWithRed:95/255.0 green:175/255.0 blue:135/255.0 alpha:1.0]
 
 typedef void (^DidSelectIndexBlock)(NSInteger);
@@ -98,9 +94,6 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 #pragma mark - Other Function
 - (void) loadParameters {
     NSDictionary *infoDictionary = [NSBundle mainBundle].infoDictionary;
-    self.appId = infoDictionary[kOmniSDKAppId];
-    self.appKey = infoDictionary[kOmniSDKAppKey];
-    self.planId = infoDictionary[kOmniSDKPlanId];
     self.serverUrl = infoDictionary[kOmniSDKServerUrl];
 }
 
