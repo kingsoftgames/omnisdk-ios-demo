@@ -166,8 +166,8 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 }
 
 - (BOOL)isLogin{
-    NSDictionary *userDict = [Utils convertJsonStringToDict:[OmniSDK.shared getUserInfo]];
-    return [userDict[@"uid"] length] != 0;
+    OmniSDKLoginInfo *loginInfo = [OmniSDKv3 shared].getLoginInfo;
+    return loginInfo.userId.length != 0 && loginInfo.userId.length != 1;
 }
 
 - (void)clearLog{

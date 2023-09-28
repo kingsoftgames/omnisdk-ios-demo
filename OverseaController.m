@@ -24,6 +24,7 @@
         @{@"登出":NSStringFromSelector(@selector(logout))},
         @{@"账号中心":NSStringFromSelector(@selector(accountCenter))},
         @{@"关联账号":NSStringFromSelector(@selector(linkCustom))},
+        @{@"删除账号":NSStringFromSelector(@selector(deleteAccount))},
         @{@"支付":NSStringFromSelector(@selector(purchase))},
         @{@"分享Facebook":NSStringFromSelector(@selector(socialShareFacebook))},
     ];
@@ -76,12 +77,20 @@
 #pragma mark - 删除账号
     
 - (void)deleteAccount {
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
     [OmniSDKv3.shared deleteAccountWithOptions:nil];
 }
 
 #pragma mark - 关联账号
 /// 自定义关联
 - (void)linkCustom {
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
     [OmniSDKv3.shared linkAccountWithOptions:nil];
 }
 
@@ -101,6 +110,10 @@
 
 /// 系统分享
 - (void)socialShareSystem {
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
     [self socialShare:OmniSDKSocialSharePlatformSystem];
 }
 
