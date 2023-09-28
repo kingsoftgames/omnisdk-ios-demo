@@ -107,9 +107,4 @@
     return [[NSBundle mainBundle].infoDictionary[kOmniSDKRegion] isEqual:@"domestic"];
 }
 
-+ (Boolean)isEqualWithServerUrl:(NSString *)url{
-    NSString *configUrl = [NSBundle mainBundle].infoDictionary[kOmniSDKServerUrl];
-    return [configUrl isEqual:url];
-}
-
 @end
