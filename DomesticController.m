@@ -22,8 +22,6 @@
         @{@"登出":NSStringFromSelector(@selector(logout))},
         @{@"支付":NSStringFromSelector(@selector(pay))},
         @{@"用户信息":NSStringFromSelector(@selector(getUserInfo))},
-        @{@"进入游戏":NSStringFromSelector(@selector(enterGame))},
-        @{@"创建角色":NSStringFromSelector(@selector(createRole))},
         @{@"注销账号":NSStringFromSelector(@selector(deleteAccount))},
         @{@"用户中心":NSStringFromSelector(@selector(openUserInfo))},
         @{@"分享":NSStringFromSelector(@selector(share))}
@@ -85,26 +83,6 @@
     [self logCallBack:@"获取用户信息" msg:msg];
 }
 
-//进入游戏
-- (void)enterGame{
-    OmniSDKEnterGameEvent *event = [[OmniSDKEnterGameEvent alloc] init];
-    event.roleInfo = [self roleInfo];
-    [[OmniSDKv3 shared] trackEventWithEvent:event];
-}
-
-//创建角色
-- (void)createRole{
-    OmniSDKCreateRoleEvent *event = [[OmniSDKCreateRoleEvent alloc] init];
-    event.roleInfo = [self roleInfo];
-    [[OmniSDKv3 shared] trackEventWithEvent:event];
-}
-
-- (void)roleLevelUp{
-    OmniSDKRoleLevelUpEvent *event = [[OmniSDKRoleLevelUpEvent alloc] init];
-    event.roleInfo = [self roleInfo];
-    [[OmniSDKv3 shared] trackEventWithEvent:event];
-}
-
 //注销账号
 - (void)deleteAccount{
     [[OmniSDKv3 shared] deleteAccountWithOptions:nil];
@@ -149,19 +127,6 @@
     options.extJson = @"";
     self.purchaseOptions = options;
     return options;
-}
-
-- (OmniSDKRoleInfo *)roleInfo{
-    OmniSDKRoleInfo *role = [[OmniSDKRoleInfo alloc] init];
-    role.userId = @"123";
-    role.gameRoleId = @"11";
-    role.gameRoleName = @"小王";
-    role.gameRoleLevel = @"4";
-    role.gameRoleVipLevel = @"v8";
-    role.gameServerName = @"1服";
-    role.gameServerId = @"8区";
-    role.extJson = @"";
-    return role;
 }
 
 - (NSString *)gameCallbackUrl{

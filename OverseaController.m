@@ -20,11 +20,17 @@
     [super viewDidLoad];
     
     self.items = @[
-        @{@"登录":NSStringFromSelector(@selector(login))},
+        @{@"静默登录":NSStringFromSelector(@selector(login))},
+        @{@"游客登录":NSStringFromSelector(@selector(loginGuest))},
+        @{@"AppleID登录":NSStringFromSelector(@selector(loginApple))},
+        @{@"Facebook登录":NSStringFromSelector(@selector(loginFacebook))},
         @{@"登出":NSStringFromSelector(@selector(logout))},
         @{@"账号中心":NSStringFromSelector(@selector(accountCenter))},
         @{@"关联账号":NSStringFromSelector(@selector(linkCustom))},
+        @{@"关联Apple":NSStringFromSelector(@selector(linkApple))},
+        @{@"关联Facebook":NSStringFromSelector(@selector(linkFacebook))},
         @{@"删除账号":NSStringFromSelector(@selector(deleteAccount))},
+        @{@"恢复账号":NSStringFromSelector(@selector(restoreAccount))},
         @{@"支付":NSStringFromSelector(@selector(purchase))},
         @{@"分享Facebook":NSStringFromSelector(@selector(socialShareFacebook))},
     ];
@@ -38,9 +44,27 @@
     [[OmniSDKv3 shared] startWithOptions:options];
 }
 
-///登录
+///静默登录
 - (void)login {
     [[OmniSDKv3 shared] loginWithController:self options:nil];
+}
+
+///游客登录
+- (void)loginGuest {
+    OmniSDKLoginOptions *options = [[OmniSDKLoginOptions alloc] initWithAuthMethod:OmniSDKAuthMethodGuest];
+    [[OmniSDKv3 shared] loginWithController:self options:options];
+}
+
+///AppleID 登录
+- (void)loginApple {
+    OmniSDKLoginOptions *options = [[OmniSDKLoginOptions alloc] initWithAuthMethod:OmniSDKAuthMethodApple];
+    [[OmniSDKv3 shared] loginWithController:self options:options];
+}
+
+///Facebook 登录
+- (void)loginFacebook {
+    OmniSDKLoginOptions *options = [[OmniSDKLoginOptions alloc] initWithAuthMethod:OmniSDKAuthMethodFacebook];
+    [[OmniSDKv3 shared] loginWithController:self options:options];
 }
 
 ///登出
@@ -75,13 +99,23 @@
 }
 
 #pragma mark - 删除账号
-    
+
+/// 申请删除账号
 - (void)deleteAccount {
     if (!self.isLogin) {
         [Utils showAlertWithContrller:self msg:@"请先登录"];
         return;
     }
     [OmniSDKv3.shared deleteAccountWithOptions:nil];
+}
+
+/// 恢复账号
+- (void)restoreAccount {
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
+    [OmniSDKv3.shared restoreAccountWithOptions:nil];
 }
 
 #pragma mark - 关联账号

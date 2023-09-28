@@ -122,9 +122,16 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 }
 
 - (void)setItems:(NSArray *)items {
+    NSDictionary *enterGame = @{@"进入游戏":NSStringFromSelector(@selector(enterGame))};
+    NSDictionary *createRole = @{@"创建角色":NSStringFromSelector(@selector(createRole))};
+    NSDictionary *roleLevelUp = @{@"角色升级":NSStringFromSelector(@selector(roleLevelUp))};
     NSDictionary *copyLog = @{@"复制日志":NSStringFromSelector(@selector(copyLog))};
     NSDictionary *clearLog = @{@"清空日志":NSStringFromSelector(@selector(clearLog))};
+    
     NSMutableArray *arr = [NSMutableArray arrayWithArray:items];
+    [arr addObject:enterGame];
+    [arr addObject:createRole];
+    [arr addObject:roleLevelUp];
     [arr addObject:copyLog];
     [arr addObject:clearLog];
     _items = arr;
@@ -170,6 +177,27 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
     return loginInfo.userId.length != 0 && loginInfo.userId.length != 1;
 }
 
+//进入游戏
+- (void)enterGame{
+    OmniSDKEnterGameEvent *event = [[OmniSDKEnterGameEvent alloc] init];
+    event.roleInfo = [self testRoleInfo];
+    [[OmniSDKv3 shared] trackEventWithEvent:event];
+}
+
+//创建角色
+- (void)createRole{
+    OmniSDKCreateRoleEvent *event = [[OmniSDKCreateRoleEvent alloc] init];
+    event.roleInfo = [self testRoleInfo];
+    [[OmniSDKv3 shared] trackEventWithEvent:event];
+}
+
+//角色升级
+- (void)roleLevelUp{
+    OmniSDKRoleLevelUpEvent *event = [[OmniSDKRoleLevelUpEvent alloc] init];
+    event.roleInfo = [self testRoleInfo];
+    [[OmniSDKv3 shared] trackEventWithEvent:event];
+}
+
 - (void)clearLog{
     [self.console clearLog];
 }
@@ -178,28 +206,17 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
     UIPasteboard.generalPasteboard.string = self.console.textView.text;
 }
 
-- (NSString *)testUserInfo{
-    NSDictionary *dict = @{
-        @"uid":@"123",
-        @"roleId":@"123",
-        @"roleType":@"射手",
-        @"roleLevel":@"4",
-        @"roleVipLevel":@"3",
-        @"serverId":@"1",
-        @"zoneId":@"1",
-        @"roleName":@"刘666",
-        @"serverName":@"武汉区",
-        @"zoneName":@"华中",
-        @"partyName":@"华中一",
-        @"gender":@"m",
-        @"balance":@"10",
-        @"ageInGame":@"12",
-        @"accountAgeInGame":@"22",
-        @"roleFigure":@"fat",
-        @"ext":@""
-    };
-    NSString *json = [Utils convertDictToJsonString:dict];
-    return json;
+- (OmniSDKRoleInfo *)testRoleInfo{
+    OmniSDKRoleInfo *role = [[OmniSDKRoleInfo alloc] init];
+    role.userId = @"123";
+    role.gameRoleId = @"11";
+    role.gameRoleName = @"小王";
+    role.gameRoleLevel = @"4";
+    role.gameRoleVipLevel = @"v8";
+    role.gameServerName = @"1服";
+    role.gameServerId = @"8区";
+    role.extJson = @"";
+    return role;
 }
 
 - (UITableView *)tableView{
