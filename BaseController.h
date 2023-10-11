@@ -21,6 +21,8 @@ typedef void (^SelectProductBlock)(NSString* productPrice, NSString *paidPrice);
 @property (nonatomic, strong) NSArray *items;
 @property (nonatomic, copy) NSString *testUserInfo;
 @property (nonatomic, assign) BOOL isLogin;
+@property (nonatomic, strong) OmniSDKPurchaseOptions *purchaseOptions;
+@property (nonatomic, assign) NSInteger roleLevel;
 
 - (void)logCallBack:(NSString *)cb msg:(NSString *)msg;
 - (void)copyLog;

@@ -7,10 +7,6 @@
 
 #import "DomesticController.h"
 
-#define kDevHostUrl @"https://a2.xgsdk.dev.seayoo.com"
-#define kProdHostUrl @"https://a2.xgsdk.seayoo.com"
-#define kOmniSDKAppId @"OmniSDKAppId"
-
 @interface DomesticController ()
 
 @end
@@ -24,8 +20,6 @@
         @{@"登出":NSStringFromSelector(@selector(logout))},
         @{@"支付":NSStringFromSelector(@selector(pay))},
         @{@"用户信息":NSStringFromSelector(@selector(getUserInfo))},
-        @{@"进入游戏":NSStringFromSelector(@selector(enterGame))},
-        @{@"创建角色":NSStringFromSelector(@selector(createRole))},
         @{@"注销账号":NSStringFromSelector(@selector(deleteAccount))},
         @{@"用户中心":NSStringFromSelector(@selector(openUserInfo))},
         @{@"分享":NSStringFromSelector(@selector(share))}
@@ -36,27 +30,26 @@
 //初始化
 - (void)initSDK{
     OmniSDKOptions *options = [[OmniSDKOptions alloc] init];
-    options.toastEnabled = YES;
-    options.toastDurationSeconds = 2;
-    options.logCollectEnabled = YES;
-    options.logFileEnabled = YES;
-    options.storeKit2Enabled = NO;
-    [[OmniSDK shared] sdkInitializeWithOptions:options delegate: self];
+    options.delegate = self;
+    [[OmniSDKv3 shared] startWithOptions:options];
 }
 
 //登录
 - (void)login{
-    [OmniSDK.shared accountLogin:@"" :self];
+    [[OmniSDKv3 shared] loginWithController:self options:nil];
 }
 
 //登出
 - (void)logout{
-    [OmniSDK.shared accountLogout];
+    if (!self.isLogin) {
+        [self.console updateLogWithLevel:INFO message:@"未登录"];
+        return;
+    }
+    [[OmniSDKv3 shared] logout];
 }
 
 //支付
 - (void)pay{
-    
     if (!self.isLogin) {
         [Utils showAlertWithContrller:self msg:@"请先登录"];
         return;
@@ -73,8 +66,8 @@
     NSString *productDes = [NSString stringWithFormat:@"充值%@元获得%ld钻石", productPrice,productPrice.integerValue * 10];
     NSString *productName = [NSString stringWithFormat:@"%ld钻石", productPrice.integerValue * 10];
 
-    NSString *json = [self productWith:productID totalAmount:totalAmount productDes:productDes productName:productName];
-    [OmniSDK.shared pay:json];
+    OmniSDKPurchaseOptions *options = [self purchaseOptionsWith:productID totalAmount:totalAmount productDes:productDes productName:productName];
+    [[OmniSDKv3 shared] purchaseWithOptions:options];
 }
 
 //获取用户信息
@@ -83,28 +76,19 @@
         [Utils showAlertWithContrller:self msg:@"请先登录"];
         return;
     }
-    NSString *json = [OmniSDK.shared getUserInfo];
-    [self logCallBack:@"获取用户信息" msg:json];
-}
-
-//进入游戏
-- (void)enterGame{
-    [OmniSDK.shared onEnterGame:self.testUserInfo];
-}
-
-//创建角色
-- (void)createRole{
-    [OmniSDK.shared onCreateRole:self.testUserInfo];
+    OmniSDKLoginInfo *info = [[OmniSDKv3 shared] getLoginInfo];
+    NSString *msg = [NSString stringWithFormat:@"userId = %@, token = %@", info.userId, info.token];
+    [self logCallBack:@"获取用户信息" msg:msg];
 }
 
 //注销账号
 - (void)deleteAccount{
-    [OmniSDK.shared accountDelete:@""];
+    [[OmniSDKv3 shared] deleteAccountWithOptions:nil];
 }
 
 //用户中心
 - (void)openUserInfo{
-    [OmniSDK.shared updateUserInfo:self];
+    [[OmniSDKv3 shared] openAccountCenterWithController:self];
 }
 
 // 分享
@@ -112,39 +96,36 @@
 //    NSURL *serverUrl = [NSURL URLWithString:@"https://static.runoob.com/images/demo/demo2.jpg"];
     NSString *path = [[NSBundle mainBundle] pathForResource:@"sharePicture.png" ofType:nil];
     NSURL *localUrl = [NSURL fileURLWithPath:path];
-    OmniSDKShareOptions *option = [[OmniSDKShareOptions alloc] initWithPlatform:PlatformSystem text:@"我是测试内容" url: localUrl];
-    [[OmniSDK shared] socialShareWithOptions:option controller:self];
+    OmniSDKSocialShareOptions *opt = [[OmniSDKSocialShareOptions alloc] init];
+    opt.linkUrl = localUrl;
+    opt.text = @"我是测试内容";
+    opt.platform = OmniSDKSocialSharePlatformSystem;
+    [[OmniSDKv3 shared] socialShareWithController:self options:opt];
 }
 
 #pragma mark - Other Function
 
-- (NSString *)productWith:(NSString *)productID totalAmount:(CGFloat)totalAmount productDes:(NSString *)productDes productName:(NSString *)productName{
-    NSDictionary *dict = @{
-        @"roleId":@"123",
-        @"serverId" : @"123",
-        @"gameCallbackUrl" : [self gameCallbackUrl],
-        @"productId" : productID,
-        @"productDesc" : productDes,
-        @"gameTradeNo" : [Utils getCurrentTimes],
-        @"totalAmount" : @(totalAmount),
-        @"paidAmount" : @(totalAmount),
-        @"productQuantity" : @(1),
-        @"zoneId" : @"1服",
-        @"roleName" : @"王宝强",
-        @"roleLevel" : @"6",
-        @"roleVipLevel" : @"11",
-        @"productName" : productName,
-        @"productUnit" : @"钻石",
-        @"productUnitPrice" : @(totalAmount),
-    };
-    NSString *json = [Utils convertDictToJsonString:dict];
-    return json;
-}
-
-- (NSString *)gameCallbackUrl{
-    NSString *sdkHostDomain = [Utils isEqualWithServerUrl: kDevHostUrl] ? kDevHostUrl : kProdHostUrl;
-    NSString *gameCallbackUrl = [sdkHostDomain stringByAppendingString:@"/mock/recharge/notify"];
-    return  gameCallbackUrl;
+- (OmniSDKPurchaseOptions *)purchaseOptionsWith:(NSString *)productID totalAmount:(CGFloat)totalAmount productDes:(NSString *)productDes productName:(NSString *)productName{
+    OmniSDKPurchaseOptions *options = [[OmniSDKPurchaseOptions alloc] init];
+    options.productId = productID;
+    options.productName = productName;
+    options.productDesc = productDes;
+    options.productUnitPrice = totalAmount;
+    options.purchaseAmount = totalAmount;
+    options.purchaseQuantity = 1;
+    options.purchaseCallbackUrl = @"https://a2.xgsdk.seayoo.com/mock/recharge/notify";
+    options.gameOrderId = [Utils getCurrentTimes];
+    options.gameCurrencyUnit = @"魔石";
+    options.gameRoleId = @"123";
+    options.gameRoleName = @"小王";
+    options.gameRoleLevel = @"99";
+    options.gameRoleVipLevel = @"v8";
+    options.gameZoneId = @"1区";
+    options.gameServerId = @"8服";
+    options.extJson = @"";
+    self.purchaseOptions = options;
+    return options;
 }
 
 @end
+

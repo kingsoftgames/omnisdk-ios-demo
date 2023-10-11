@@ -9,7 +9,6 @@
 #include <CommonCrypto/CommonHMAC.h>
 
 #define kOmniSDKRegion @"OmniSDKRegion"
-#define kOmniSDKServerUrl @"OmniSDKServerUrl"
 
 @implementation Utils
 
@@ -105,11 +104,6 @@
 
 + (Boolean)isDomestic{
     return [[NSBundle mainBundle].infoDictionary[kOmniSDKRegion] isEqual:@"domestic"];
-}
-
-+ (Boolean)isEqualWithServerUrl:(NSString *)url{
-    NSString *configUrl = [NSBundle mainBundle].infoDictionary[kOmniSDKServerUrl];
-    return [configUrl isEqual:url];
 }
 
 @end

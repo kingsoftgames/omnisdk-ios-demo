@@ -7,16 +7,6 @@
 
 #import "OverseaController.h"
 
-#define GUEST @"1"
-#define APPLE @"7"
-#define FACEBOOK @"3"
-#define LINE @"23"
-#define NAVER @"54"
-#define GAMECENTER @"5"
-#define SHARE_FACEBOOK @"1"
-#define SHARE_LINE @"2"
-#define DEFAULT @"0"
-
 @interface OverseaController ()
 
 @end
@@ -27,123 +17,176 @@
     [super viewDidLoad];
     
     self.items = @[
-        @{@"登录":NSStringFromSelector(@selector(defaultLogin))},
+        @{@"静默登录":NSStringFromSelector(@selector(login))},
+        @{@"游客登录":NSStringFromSelector(@selector(loginGuest))},
+        @{@"AppleID登录":NSStringFromSelector(@selector(loginApple))},
+        @{@"Facebook登录":NSStringFromSelector(@selector(loginFacebook))},
         @{@"登出":NSStringFromSelector(@selector(logout))},
         @{@"账号中心":NSStringFromSelector(@selector(accountCenter))},
-        @{@"支付":NSStringFromSelector(@selector(pay))},
-        @{@"分享Facebook":NSStringFromSelector(@selector(shareFacebook))},
-        @{@"分享Line":NSStringFromSelector(@selector(shareLine))},
+        @{@"关联账号":NSStringFromSelector(@selector(linkCustom))},
+        @{@"关联Apple":NSStringFromSelector(@selector(linkApple))},
+        @{@"关联Facebook":NSStringFromSelector(@selector(linkFacebook))},
+        @{@"删除账号":NSStringFromSelector(@selector(deleteAccount))},
+        @{@"恢复账号":NSStringFromSelector(@selector(restoreAccount))},
+        @{@"支付":NSStringFromSelector(@selector(purchase))},
+        @{@"分享Facebook":NSStringFromSelector(@selector(socialShareFacebook))},
     ];
     [self initSDK];
 }
 
-//初始化
+/// 初始化
 - (void)initSDK{
     OmniSDKOptions *options = [[OmniSDKOptions alloc] init];
-    options.toastEnabled = YES;
-    options.logCollectEnabled = YES;
-    options.logFileEnabled = YES;
-    options.storeKit2Enabled = NO;
-    [[OmniSDK shared] sdkInitializeWithOptions:options delegate: self];
+    options.delegate = self;
+    [[OmniSDKv3 shared] startWithOptions:options];
 }
 
-- (void)defaultLogin {
-    [self login: DEFAULT];
+///静默登录
+- (void)login {
+    [[OmniSDKv3 shared] loginWithController:self options:nil];
 }
 
-- (void)guestLogin {
-    [self login: GUEST];
+///游客登录
+- (void)loginGuest {
+    OmniSDKLoginOptions *options = [[OmniSDKLoginOptions alloc] initWithAuthMethod:OmniSDKAuthMethodGuest];
+    [[OmniSDKv3 shared] loginWithController:self options:options];
 }
+
+///AppleID 登录
+- (void)loginApple {
+    OmniSDKLoginOptions *options = [[OmniSDKLoginOptions alloc] initWithAuthMethod:OmniSDKAuthMethodApple];
+    [[OmniSDKv3 shared] loginWithController:self options:options];
+}
+
+///Facebook 登录
+- (void)loginFacebook {
+    OmniSDKLoginOptions *options = [[OmniSDKLoginOptions alloc] initWithAuthMethod:OmniSDKAuthMethodFacebook];
+    [[OmniSDKv3 shared] loginWithController:self options:options];
+}
+
+///登出
+- (void)logout {
+    if (!self.isLogin) {
+        [self.console updateLogWithLevel:INFO message:@"未登录"];
+        return;
+    }
+    [[OmniSDKv3 shared] logout];
+}
+
+#pragma mark - 用户中心
 
 - (void)accountCenter {
     if (!self.isLogin) {
         [Utils showAlertWithContrller:self msg:@"请先登录"];
         return;
     }
-    [[OmniSDK shared] updateUserInfo: self];
+    [OmniSDKv3.shared openAccountCenterWithController:self];
 }
 
-- (void)appleLogin {
-    [self login: APPLE];
-}
+#pragma mark - 应用内购买
 
-- (void)facebookLogin {
-    [self login: FACEBOOK];
-}
-
-- (void)lineLogin {
-    [self login: LINE];
-}
-
-- (void)naverLogin {
-    [self login: NAVER];
-}
-
-- (void)gameCenterLogin {
-    [self login: GAMECENTER];
-}
-
-- (void)login:(NSString *)type {
-    NSDictionary *dict = @{
-        @"accountType":type
-    };
-    NSString *json = [Utils convertDictToJsonString:dict];
-    [[OmniSDK shared] accountLogin:json :self];
-}
-
-- (void)logout {
+/// 购买
+- (void)purchase {
     if (!self.isLogin) {
-        [Utils showAlertWithContrller:self msg:@"未登录"];
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
         return;
     }
-    [[OmniSDK shared] accountLogout];
+    NSString *gameTradeNo = [Utils getCurrentTimes];
+    [OmniSDKv3.shared purchaseWithOptions:[self purchaseOptions:gameTradeNo]];
 }
 
-- (void)pay {
-    NSDictionary *para = @{
-        @"role_id":@"123",
-        @"cp_order_id":[Utils getCurrentTimes],
-        @"server_id":@"123",
-        @"goods_id":@"com.oversea.product6",
-        @"pay_description":@"test",
-        @"notify_cp_url":@"https://api.seayoo.io/omni/pout/test/cp_notify_ok"
-    };
-    NSString *json = [Utils convertDictToJsonString:para];
-    [OmniSDK.shared pay:json];
-}
+#pragma mark - 删除账号
 
+/// 申请删除账号
 - (void)deleteAccount {
-    NSDictionary *para = @{
-        @"roleID":@"1234",
-        @"serverID":@"asff"
-    };
-    NSString *json = [Utils convertDictToJsonString:para];
-    [OmniSDK.shared accountDelete:json];
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
+    [OmniSDKv3.shared deleteAccountWithOptions:nil];
 }
 
-- (void)bindApple {
-    [[OmniSDK shared] accountBind:APPLE];
+/// 恢复账号
+- (void)restoreAccount {
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
+    [OmniSDKv3.shared restoreAccountWithOptions:nil];
 }
 
-- (void)bindFacebook {
-    [[OmniSDK shared] accountBind:FACEBOOK];
+#pragma mark - 关联账号
+/// 自定义关联
+- (void)linkCustom {
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
+    [OmniSDKv3.shared linkAccountWithOptions:nil];
 }
 
-- (void)bindLine {
-    [[OmniSDK shared] accountBind:LINE];
+/// 关联 AppleID
+- (void)linkApple {
+    OmniSDKLinkAccountOptions *options = [[OmniSDKLinkAccountOptions alloc] initWithIdp:OmniSDKIdentityProviderApple];
+    [OmniSDKv3.shared linkAccountWithOptions:options];
 }
 
-- (void)bindNaver {
-    [[OmniSDK shared] accountBind:NAVER];
+/// 关联 Facebook
+- (void)linkFacebook {
+    OmniSDKLinkAccountOptions *options = [[OmniSDKLinkAccountOptions alloc] initWithIdp:OmniSDKIdentityProviderFacebook];
+    [OmniSDKv3.shared linkAccountWithOptions:options];
 }
 
-- (void)shareFacebook {
-    [[OmniSDK shared] socialShare:SHARE_FACEBOOK];
+#pragma mark - 分享
+
+/// 系统分享
+- (void)socialShareSystem {
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
+    [self socialShare:OmniSDKSocialSharePlatformSystem];
 }
 
-- (void)shareLine {
-    [[OmniSDK shared] socialShare:SHARE_LINE];
+/// 分享到 Facebook
+- (void)socialShareFacebook {
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
+    [self socialShare:OmniSDKSocialSharePlatformFacebook];
 }
 
+/// 分享到 Line
+- (void)socialShareLine {
+    if (!self.isLogin) {
+        [Utils showAlertWithContrller:self msg:@"请先登录"];
+        return;
+    }
+    [self socialShare:OmniSDKSocialSharePlatformLine];
+}
+
+- (void)socialShare:(OmniSDKSocialSharePlatform)platform {
+    OmniSDKSocialShareOptions *options = [[OmniSDKSocialShareOptions alloc] init];
+    options.platform = platform;
+    options.linkUrl = [NSURL URLWithString:@"https://developers.facebook.com"];
+    options.text = @"test share";
+    options.imageUrl = [NSURL URLWithString:@"https://lmg.jj20.com/up/allimg/4k/s/02/2109250006343S5-0-lp.jpg"];
+    [[OmniSDKv3 shared] socialShareWithController:self options:options];
+}
+
+#pragma mark - Other Function
+    
+- (OmniSDKPurchaseOptions *)purchaseOptions:(NSString *)gameOrder {
+    OmniSDKPurchaseOptions *options = [[OmniSDKPurchaseOptions alloc] init];
+    options.gameRoleId = @"123";
+    options.gameOrderId = gameOrder;
+    options.gameServerId = @"123";
+    options.productId = @"com.oversea.product6";
+    options.productDesc = @"test";
+    options.purchaseCallbackUrl = @"https://api.seayoo.io/omni/pout/test/cp_notify_ok";
+    self.purchaseOptions = options;
+    return options;
+}
 
 @end

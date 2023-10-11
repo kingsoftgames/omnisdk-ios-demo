@@ -7,6 +7,7 @@
 
 #import "BaseController.h"
 
+#define kOmniSDKServerUrl @"OmniSDKServerUrl"
 #define kCellBackgroundColor [UIColor colorWithRed:95/255.0 green:175/255.0 blue:135/255.0 alpha:1.0]
 
 typedef void (^DidSelectIndexBlock)(NSInteger);
@@ -23,6 +24,7 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
     [self addLogConsole];
     [self addButtonContainerView];
     [self addVersionLabel];
+    self.roleLevel = 1;
 }
 
 - (void)viewWillLayoutSubviews {
@@ -36,92 +38,92 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 
 #pragma mark - OmniSDKCallBackDelegate
 
-- (void)onAccountBindCancel {
-    [self logCallBack:@"绑定账号取消" msg:@""];
+- (void)onStartWithResult:(OmniSDKStartResult *)result error:(OmniSDKError *)error {
+    NSString *msg = [NSString stringWithFormat:@"appId=%@, planId=%@, sdkVersion=%@", result.appId, result.planId, result.sdkVersion];
+    [self logResultWithOperation:@"V3初始化" message:msg error:error];
 }
 
-- (void)onAccountBindFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"绑定账号失败" msg:result];
+- (void)onLoginWithResult:(OmniSDKLoginResult *)result error:(OmniSDKError *)error {
+    
+    NSString *msg = [NSString stringWithFormat:@"userId = %@", result.loginInfo.userId];
+    [self logResultWithOperation:@"登录" message:msg error:error];
+    
+    if (error != nil) {
+        // 失败
+        NSInteger code = error.code; // 错误码
+        NSString *message = error.message; // 错误信息
+        NSString *detailMessage = error.description; // 错误详细信息
+        return;
+    }
+    
+    // 成功（根据实际需求取 result 中的参数）
+    NSString *userId = result.loginInfo.userId; // 用户ID
+    NSString *token = result.loginInfo.token; // 用户令牌
+    NSString *channelId = result.loginInfo.channelId; // 渠道ID
+    NSString *signature = result.loginInfo.signature; // 签名
 }
 
-- (void)onAccountBindSuccess {
-    [self logCallBack:@"绑定账号成功" msg:@""];
+- (void)onLogoutWithResult:(OmniSDKLogoutResult *)result error:(OmniSDKError *)error {
+    [self logResultWithOperation:@"登出" message:result.userId error:error];
 }
 
-- (void)onAccountDeleteFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"删除账号失败" msg:@""];
+- (void)onLinkAccountWithResult:(OmniSDKLinkAccountResult *)result error:(OmniSDKError *)error {
+    [self logResultWithOperation:@"关联账号" message:[NSString stringWithFormat:@"%ld", result.idp] error:error];
 }
 
-- (void)onAccountDeleteSuccess {
-    [self logCallBack:@"删除账号成功" msg:@""];
+- (void)onDeleteAccountWithResult:(OmniSDKDeleteAccountResult *)result error:(OmniSDKError *)error {
+    [self logResultWithOperation:@"删除账号" message:result.userId error:error];
 }
 
-- (void)onAccountKickedOutWithResult:(BOOL)result {
-    NSString *r = [NSString stringWithFormat:@"%d",result];
-    [self logCallBack:@"强制踢出" msg:r];
+- (void)onRestoreAccountWithResult:(OmniSDKRestoreAccountResult *)result error:(OmniSDKError *)error {
+    [self logResultWithOperation:@"撤销删除账号" message:result.userId error:error];
 }
 
-- (void)onAccountLoginCancel {
-    [self logCallBack:@"登录取消" msg:@""];
+- (void)onPurchaseWithResult:(OmniSDKPurchaseResult *)result error:(OmniSDKError *)error {
+    
+    [self logResultWithOperation:@"应用内购买" message:result.orderId error:error];
+    
+    if (error != nil) {
+        // 失败
+        NSInteger code = error.code; // 错误码
+        NSString *message = error.message; // 错误信息
+        NSString *detailMessage = error.description; // 错误详细信息
+        return;
+    }
+    
+    // 成功(根据实际需求取 result 中参数)
+    NSString *sdkOrderId = result.orderId; // SDK订单ID
+    NSString *gameOrderId = result.purchaseInfo.gameOrderId; // 游戏订单ID
+    NSString *productId = result.purchaseInfo.productId; // 商品ID
+    
+    // 游戏内发货成功后调用以下事件
+    [self trackPurchaseEvent: sdkOrderId];
 }
 
-- (void)onAccountLoginFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"登录失败" msg:result];
+- (void)onSocialShareWithResult:(OmniSDKSocialShareResult *)result error:(OmniSDKError *)error {
+    [self logResultWithOperation:@"社交分享" message:result.options.linkUrl.absoluteString error:error];
 }
 
-- (void)onAccountLoginSuccess {
-    [self logCallBack:@"登录成功" msg:@""];
-}
-
-- (void)onAccountLogoutCancel {
-    [self logCallBack:@"登出取消" msg:@""];
-}
-
-- (void)onAccountLogoutFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"登出失败" msg:result];
-}
-
-- (void)onAccountLogoutSuccess {
-    [self logCallBack:@"登出成功" msg:@""];
-}
-
-- (void)onInitNotifierFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"初始化失败" msg:result];
-}
-
-- (void)onInitNotifierSuccess {
-    [self logCallBack:@"初始化成功" msg:@""];
-}
-
-- (void)onPayCancelWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"支付取消" msg:result];
-}
-
-- (void)onPayFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"支付失败" msg:result];
-}
-
-- (void)onPaySuccessWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"支付成功" msg:result];
-}
-
-- (void)onSocialShareCancel {
-    [self logCallBack:@"分享取消" msg:@""];
-}
-
-- (void)onSocialShareFailureWithResult:(NSString * _Nonnull)result {
-    [self logCallBack:@"分享失败" msg:result];
-}
-
-- (void)onSocialShareSuccess {
-    [self logCallBack:@"分享成功" msg:@""];
-}
-
-- (void)onCollectLogWithResult:(OmniSDKLogRecord *)result{
+- (void)onCollectLogRecordWithResult:(OmniSDKLogRecord *)result {
     [self.console updateLogWithLevel:result.level message:result.msg];
 }
 
+- (void)logResultWithOperation:(NSString *)opt message:(NSString *)msg error:(OmniSDKError *)error{
+    if (error == nil) {
+        [self logCallBack:[NSString stringWithFormat:@"%@成功", opt] msg:msg];
+    } else {
+        [self logCallBack:[NSString stringWithFormat:@"%@失败", opt] msg:error.message];
+    }
+}
+
 #pragma mark - Other Function
+- (void) trackPurchaseEvent: (NSString *) orderId{
+    OmniSDKPurchaseEvent *event = [[OmniSDKPurchaseEvent alloc] init];
+    event.orderId = orderId;
+    event.purchase = self.purchaseOptions;
+    event.userId = [OmniSDKv3.shared getLoginInfo].userId;
+    [OmniSDKv3.shared trackEventWithEvent:event];
+}
 
 - (void)getStatusBarHeight {
     self.statusBarHeight = 0.0;
@@ -148,9 +150,16 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 }
 
 - (void)setItems:(NSArray *)items {
+    NSDictionary *enterGame = @{@"进入游戏":NSStringFromSelector(@selector(enterGame))};
+    NSDictionary *createRole = @{@"创建角色":NSStringFromSelector(@selector(createRole))};
+    NSDictionary *roleLevelUp = @{@"角色升级":NSStringFromSelector(@selector(roleLevelUp))};
     NSDictionary *copyLog = @{@"复制日志":NSStringFromSelector(@selector(copyLog))};
     NSDictionary *clearLog = @{@"清空日志":NSStringFromSelector(@selector(clearLog))};
+    
     NSMutableArray *arr = [NSMutableArray arrayWithArray:items];
+    [arr addObject:enterGame];
+    [arr addObject:createRole];
+    [arr addObject:roleLevelUp];
     [arr addObject:copyLog];
     [arr addObject:clearLog];
     _items = arr;
@@ -192,8 +201,30 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 }
 
 - (BOOL)isLogin{
-    NSDictionary *userDict = [Utils convertJsonStringToDict:[OmniSDK.shared getUserInfo]];
-    return [userDict[@"uid"] length] != 0;
+    OmniSDKLoginInfo *loginInfo = [OmniSDKv3 shared].getLoginInfo;
+    return loginInfo.userId.length != 0 && loginInfo.userId.length != 1;
+}
+
+//进入游戏
+- (void)enterGame{
+    OmniSDKEnterGameEvent *event = [[OmniSDKEnterGameEvent alloc] init];
+    event.roleInfo = [self testRoleInfo: @"1"];
+    [[OmniSDKv3 shared] trackEventWithEvent:event];
+}
+
+//创建角色
+- (void)createRole{
+    OmniSDKCreateRoleEvent *event = [[OmniSDKCreateRoleEvent alloc] init];
+    event.roleInfo = [self testRoleInfo: @"1"];
+    [[OmniSDKv3 shared] trackEventWithEvent:event];
+}
+
+//角色升级
+- (void)roleLevelUp{
+    OmniSDKRoleLevelUpEvent *event = [[OmniSDKRoleLevelUpEvent alloc] init];
+    NSString *level = [NSString stringWithFormat:@"%li", ++self.roleLevel];
+    event.roleInfo = [self testRoleInfo: level];
+    [[OmniSDKv3 shared] trackEventWithEvent:event];
 }
 
 - (void)clearLog{
@@ -204,28 +235,17 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
     UIPasteboard.generalPasteboard.string = self.console.textView.text;
 }
 
-- (NSString *)testUserInfo{
-    NSDictionary *dict = @{
-        @"uid":@"123",
-        @"roleId":@"123",
-        @"roleType":@"射手",
-        @"roleLevel":@"4",
-        @"roleVipLevel":@"3",
-        @"serverId":@"1",
-        @"zoneId":@"1",
-        @"roleName":@"刘666",
-        @"serverName":@"武汉区",
-        @"zoneName":@"华中",
-        @"partyName":@"华中一",
-        @"gender":@"m",
-        @"balance":@"10",
-        @"ageInGame":@"12",
-        @"accountAgeInGame":@"22",
-        @"roleFigure":@"fat",
-        @"ext":@""
-    };
-    NSString *json = [Utils convertDictToJsonString:dict];
-    return json;
+- (OmniSDKRoleInfo *)testRoleInfo: (NSString *)level {
+    OmniSDKRoleInfo *role = [[OmniSDKRoleInfo alloc] init];
+    role.userId = @"123";
+    role.gameRoleId = @"11";
+    role.gameRoleName = @"小王";
+    role.gameRoleLevel = level;
+    role.gameRoleVipLevel = @"v8";
+    role.gameServerName = @"1服";
+    role.gameServerId = @"8区";
+    role.extJson = @"";
+    return role;
 }
 
 - (UITableView *)tableView{

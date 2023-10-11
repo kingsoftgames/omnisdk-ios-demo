@@ -1,6 +1,9 @@
 # OmniSDK Demo for iOS
 
-The Demo includes code examples illustrating features of the OmniSDK iOS API.
+The Demo includes code examples illustrating features of the OmniSDK iOS API v3.
+
+Please refer to [the iOS Integration Guide Of v3](https://docs.seayoo.com/sdk/getting-started/ios/quick-start/api/v3/) in the Kingsoft Seayoo Documentation Center.
+
 
 # Prepare
 
@@ -16,7 +19,10 @@ The Demo includes code examples illustrating features of the OmniSDK iOS API.
 - Switch to your iOS Provisioning file
 
 # History
-[v2.6](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v2.6)  
+[v2.7](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v2.7)
+
+[v2.6](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v2.6)
+
 [v2.0](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v2.0)
 
 # Troubleshooting
