@@ -118,7 +118,7 @@
     NSDictionary *dict = @{
         @"roleId":@"123",
         @"serverId" : @"123",
-        @"gameCallbackUrl" : @"https://www.baidu.com",
+        @"gameCallbackUrl" : @"https://a2.xgsdk.seayoo.com/mock/recharge/notify",
         @"productId" : productID,
         @"productDesc" : productDes,
         @"gameTradeNo" : [Utils getCurrentTimes],
