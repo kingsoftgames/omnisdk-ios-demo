@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		7D14C78B2A8F4A6E0060D188 /* OverseaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D14C7892A8F4A6E0060D188 /* OverseaController.m */; };
+		7DC9C9802AD6ACBB0096CC38 /* sharePicture.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC9C97F2AD6ACBB0096CC38 /* sharePicture.png */; };
 		918CD5682A38793000FA428C /* BaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD55F2A38793000FA428C /* BaseController.m */; };
 		918CD5692A38793000FA428C /* DomesticController.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD5602A38793000FA428C /* DomesticController.m */; };
 		918CD56A2A38793000FA428C /* ConsoleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD5612A38793000FA428C /* ConsoleView.m */; };
@@ -36,6 +37,7 @@
 		78843F8971D3BF6514F1D854 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		7D14C7892A8F4A6E0060D188 /* OverseaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverseaController.m; path = "../../github/omnisdk-ios-demo/OverseaController.m"; sourceTree = "<group>"; };
 		7D14C78A2A8F4A6E0060D188 /* OverseaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverseaController.h; path = "../../github/omnisdk-ios-demo/OverseaController.h"; sourceTree = "<group>"; };
+		7DC9C97F2AD6ACBB0096CC38 /* sharePicture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sharePicture.png; sourceTree = "<group>"; };
 		918CD55C2A38793000FA428C /* DomesticController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DomesticController.h; sourceTree = "<group>"; };
 		918CD55F2A38793000FA428C /* BaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseController.m; sourceTree = "<group>"; };
 		918CD5602A38793000FA428C /* DomesticController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DomesticController.m; sourceTree = "<group>"; };
@@ -91,6 +93,7 @@
 				918CD5632A38793000FA428C /* Utils.h */,
 				918CD5642A38793000FA428C /* Utils.m */,
 				ABB145CC4D8BF1768348F922 /* main.m */,
+				7DC9C97F2AD6ACBB0096CC38 /* sharePicture.png */,
 				18FA0598227D3E7EB5276256 /* Frameworks */,
 				89EED0D913153940931D2FE8 /* Products */,
 			);
@@ -152,6 +155,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				7DC9C9802AD6ACBB0096CC38 /* sharePicture.png in Resources */,
 				CAB4E13C17C9D694141A1102 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
