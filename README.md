@@ -20,7 +20,7 @@ Please refer to [the iOS Integration Guide Of v3](https://docs.seayoo.com/sdk/ge
 - Switch to your iOS Provisioning file
 
 # History
-[v3.0](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v3.0)
+[v3.0](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v3.0.0)
 
 [v2.7](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v2.7)
 
