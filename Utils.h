@@ -10,6 +10,13 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface Utils : NSObject
+
+typedef NS_ENUM(NSInteger, ChannelType) {
+    Passport,
+    Oversea,
+    Seayoo
+};
+
 + (NSString *)convertDictToJsonString:(NSDictionary *)dict;
 + (NSDictionary *)convertJsonStringToDict:(NSString *)json;
 + (void)showAlertWithContrller:(UIViewController *)vc msg:(NSString *)msg;
@@ -20,6 +27,7 @@ NS_ASSUME_NONNULL_BEGIN
 + (NSDictionary *)getOmniSDKCache;
 + (void)removeCache;
 + (Boolean)isDomestic;
++ (ChannelType)getChannelType;
 @end
 
 NS_ASSUME_NONNULL_END

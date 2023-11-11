@@ -68,7 +68,7 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
 }
 
 - (void)onLinkAccountWithResult:(OmniSDKLinkAccountResult *)result error:(OmniSDKError *)error {
-    [self logResultWithOperation:@"关联账号" message:[NSString stringWithFormat:@"%ld", result.idp] error:error];
+    [self logResultWithOperation:@"关联账号" message:[NSString stringWithFormat:@"%@", result.idps] error:error];
 }
 
 - (void)onDeleteAccountWithResult:(OmniSDKDeleteAccountResult *)result error:(OmniSDKError *)error {

@@ -9,6 +9,9 @@
 #include <CommonCrypto/CommonHMAC.h>
 
 #define kOmniSDKRegion @"OmniSDKRegion"
+#define kPassportChannelName @"kspassport"
+#define kOverseaChannelName @"oversea"
+#define kSeayooChannelName @"seayoo"
 
 @implementation Utils
 
@@ -102,8 +105,16 @@
     return UIInterfaceOrientationIsLandscape(orientation);
 }
 
-+ (Boolean)isDomestic{
-    return [[NSBundle mainBundle].infoDictionary[kOmniSDKRegion] isEqual:@"domestic"];
++ (ChannelType)getChannelType{
+    NSString *channel = [[NSBundle mainBundle].infoDictionary objectForKey:@"OmniSDKChannel"];
+    
+    if ([channel isEqualToString:@"kspassport"]) {
+        return Passport;
+    } else if ([channel isEqualToString:@"oversea"]) {
+        return Oversea;
+    } else {
+        return Seayoo;
+    }
 }
 
 @end
