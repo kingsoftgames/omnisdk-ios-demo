@@ -14,11 +14,14 @@ Please refer to [the iOS Integration Guide Of v3](https://docs.seayoo.com/sdk/ge
 | OmniSDKAppId  | String | Y        | appid    |
 | OmniSDKAppKey | String | Y        | appkey   |
 | OmniSDKPlanId | String | Y        | planid |
+| OmniSDKChannel| String | Y        | ChannelName |
 
 - Copy your OmniSDK Frameworks to workspace
 - Switch to your iOS Provisioning file
 
 # History
+[v3.0](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v3.0.0)
+
 [v2.7](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v2.7)
 
 [v2.6](https://github.com/kingsoftgames/omnisdk-ios-demo/releases/tag/v2.6)

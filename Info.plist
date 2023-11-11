@@ -40,6 +40,8 @@
 	<string>YourAppId</string>
 	<key>OmniSDKAppKey</key>
 	<string>YourAppKey</string>
+	<key>OmniSDKChannel</key>
+	<string>YourChannel</string>
 	<key>OmniSDKPlanId</key>
 	<string>1234</string>
 	<key>OmniSDKRegion</key>

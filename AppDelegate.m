@@ -8,6 +8,7 @@
 #import "AppDelegate.h"
 #import "DomesticController.h"
 #import "OverseaController.h"
+#import "SeayooAccountController.h"
 #import <OmniAPI/OmniAPI-Swift.h>
 
 @interface AppDelegate ()
@@ -20,7 +21,20 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     self.isLandScape = [Utils isLandScape];
     self.window = [[UIWindow alloc] initWithFrame: UIScreen.mainScreen.bounds];
-    self.window.rootViewController = [Utils isDomestic] ? [[DomesticController alloc] init] : [[OverseaController alloc] init];
+    
+    UIViewController *vc;
+    switch ([Utils getChannelType]) {
+        case Passport:
+            vc = [[DomesticController alloc] init];
+            break;
+        case Oversea:
+            vc = [[OverseaController alloc] init];
+            break;
+        default:
+            vc = [[SeayooAccountController alloc] init];
+            break;
+    }
+    self.window.rootViewController = vc;
     [self.window makeKeyAndVisible];
     [[OmniSDKv3 shared] application:application didFinishLaunchingWithOptions:launchOptions];
     return YES;
