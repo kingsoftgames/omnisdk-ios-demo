@@ -108,12 +108,14 @@
 + (ChannelType)getChannelType{
     NSString *channel = [[NSBundle mainBundle].infoDictionary objectForKey:@"OmniSDKChannel"];
     
-    if ([channel isEqualToString:@"kspassport"]) {
+    if ([channel isEqualToString:kPassportChannelName]) {
         return Passport;
-    } else if ([channel isEqualToString:@"oversea"]) {
+    } else if ([channel isEqualToString:kOverseaChannelName]) {
         return Oversea;
-    } else {
+    } else if ([channel isEqualToString:kSeayooChannelName]){
         return Seayoo;
+    } else {
+        return Passport;
     }
 }
 
