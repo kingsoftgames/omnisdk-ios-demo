@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7D05DA612B10A784000827B2 /* SeayooAccountController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D05DA602B10A784000827B2 /* SeayooAccountController.m */; };
 		7D14C78B2A8F4A6E0060D188 /* OverseaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D14C7892A8F4A6E0060D188 /* OverseaController.m */; };
 		7DC9C9802AD6ACBB0096CC38 /* sharePicture.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC9C97F2AD6ACBB0096CC38 /* sharePicture.png */; };
 		918CD5682A38793000FA428C /* BaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD55F2A38793000FA428C /* BaseController.m */; };
@@ -35,8 +36,10 @@
 		234BB9305CD21E8CB2DD1604 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		41775EE5EEE2AD99E0928975 /* OmniSDKDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OmniSDKDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		78843F8971D3BF6514F1D854 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		7D14C7892A8F4A6E0060D188 /* OverseaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OverseaController.m; path = "../../github/omnisdk-ios-demo/OverseaController.m"; sourceTree = "<group>"; };
-		7D14C78A2A8F4A6E0060D188 /* OverseaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OverseaController.h; path = "../../github/omnisdk-ios-demo/OverseaController.h"; sourceTree = "<group>"; };
+		7D05DA5F2B10A784000827B2 /* SeayooAccountController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SeayooAccountController.h; sourceTree = "<group>"; };
+		7D05DA602B10A784000827B2 /* SeayooAccountController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SeayooAccountController.m; sourceTree = "<group>"; };
+		7D14C7892A8F4A6E0060D188 /* OverseaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverseaController.m; sourceTree = "<group>"; };
+		7D14C78A2A8F4A6E0060D188 /* OverseaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverseaController.h; sourceTree = "<group>"; };
 		7DC9C97F2AD6ACBB0096CC38 /* sharePicture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sharePicture.png; sourceTree = "<group>"; };
 		918CD55C2A38793000FA428C /* DomesticController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DomesticController.h; sourceTree = "<group>"; };
 		918CD55F2A38793000FA428C /* BaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseController.m; sourceTree = "<group>"; };
@@ -90,6 +93,8 @@
 				918CD5602A38793000FA428C /* DomesticController.m */,
 				7D14C78A2A8F4A6E0060D188 /* OverseaController.h */,
 				7D14C7892A8F4A6E0060D188 /* OverseaController.m */,
+				7D05DA5F2B10A784000827B2 /* SeayooAccountController.h */,
+				7D05DA602B10A784000827B2 /* SeayooAccountController.m */,
 				918CD5632A38793000FA428C /* Utils.h */,
 				918CD5642A38793000FA428C /* Utils.m */,
 				ABB145CC4D8BF1768348F922 /* main.m */,
@@ -172,6 +177,7 @@
 				918CD5682A38793000FA428C /* BaseController.m in Sources */,
 				918CD56A2A38793000FA428C /* ConsoleView.m in Sources */,
 				918CD56B2A38793000FA428C /* Utils.m in Sources */,
+				7D05DA612B10A784000827B2 /* SeayooAccountController.m in Sources */,
 				7D14C78B2A8F4A6E0060D188 /* OverseaController.m in Sources */,
 				BDEDEAA4B8038000A9294923 /* main.m in Sources */,
 			);
