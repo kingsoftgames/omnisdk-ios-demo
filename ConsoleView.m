@@ -10,6 +10,7 @@
 @interface ConsoleView ()
 @property (nonatomic, copy) NSString *allStr;
 @property (nonatomic, copy) NSString *infoStr;
+@property (nonatomic, copy) NSString *noticeStr;
 @property (nonatomic, copy) NSString *waringStr;
 @property (nonatomic, copy) NSString *errorStr;
 @property (nonatomic, copy) NSString * currentLevel;
@@ -21,6 +22,7 @@
     self = [super initWithFrame:frame];
     self.allStr = @"";
     self.infoStr = @"";
+    self.noticeStr = @"";
     self.waringStr = @"";
     self.errorStr = @"";
     self.currentLevel = @"0";
@@ -33,7 +35,7 @@
 }
 
 - (void)addComponent{
-    _sgView = [[UISegmentedControl alloc] initWithItems:@[@"All", @"Info", @"Warning", @"Error"]];
+    _sgView = [[UISegmentedControl alloc] initWithItems:@[@"All", @"Notice", @"Warning", @"Error"]];
     _sgView.selectedSegmentIndex = 0;
     _sgView.layer.borderWidth = 1;
     _sgView.layer.borderColor = [UIColor whiteColor].CGColor;
@@ -45,6 +47,7 @@
     _textView.backgroundColor = [UIColor blackColor];
     _textView.textColor = [UIColor whiteColor];
     _textView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+    _textView.accessibilityIdentifier = @"ConsoleView";
     [self addSubview:_textView];
 }
 
@@ -56,7 +59,7 @@
             [self switchLevel];
             break;
         case 1:
-            self.currentLevel = INFO;
+            self.currentLevel = NOTICE;
             [self switchLevel];
             break;
         case 2:
@@ -75,6 +78,8 @@
     self.allStr = [self.allStr stringByAppendingFormat:@"\n%@%@",mark,str];
     if ([INFO isEqualToString:level]) {
         self.infoStr = [self.infoStr stringByAppendingFormat:@"\n%@%@",mark,str];
+    }else if ([NOTICE isEqualToString:level]) {
+        self.noticeStr = [self.noticeStr stringByAppendingFormat:@"\n%@%@",mark,str];
     }else if ([WARNING isEqualToString:level]){
         self.waringStr = [self.waringStr stringByAppendingFormat:@"\n%@%@",mark,str];
     }else{
@@ -90,8 +95,8 @@
 - (void)switchLevel{
     if ([@"0" isEqualToString:self.currentLevel]) {
         self.textView.text = self.allStr;
-    }else if ([INFO isEqualToString:self.currentLevel]){
-        self.textView.text = self.infoStr;
+    }else if ([NOTICE isEqualToString:self.currentLevel]){
+        self.textView.text = self.noticeStr;
     }else if ([WARNING isEqualToString:self.currentLevel]){
         self.textView.text = self.waringStr;
     }else {
@@ -105,6 +110,8 @@
             return @"🟢";
         }else if ([WARNING isEqualToString:level]){
             return @"🟡";
+        }else if ([NOTICE isEqualToString:level]){
+            return @"🟠";
         }else {
             return @"🔴";
         }

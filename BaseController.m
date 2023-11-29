@@ -36,7 +36,7 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
     [self setVersionLayout];
 }
 
-#pragma mark - OmniSDKCallBackDelegate
+#pragma mark - OmniSDKDelegate
 
 - (void)onStartWithResult:(OmniSDKStartResult *)result error:(OmniSDKError *)error {
     NSString *msg = [NSString stringWithFormat:@"appId=%@, planId=%@, sdkVersion=%@", result.appId, result.planId, result.sdkVersion];
@@ -53,6 +53,9 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
         NSInteger code = error.code; // 错误码
         NSString *message = error.message; // 错误信息
         NSString *detailMessage = error.description; // 错误详细信息
+        if (code == OmniSDKErrorCodeUserCancelled) {
+            NSLog(@"canceled");
+        }
         return;
     }
     
@@ -88,6 +91,9 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
         NSInteger code = error.code; // 错误码
         NSString *message = error.message; // 错误信息
         NSString *detailMessage = error.description; // 错误详细信息
+        if (code == OmniSDKErrorCodeUserCancelled) {
+            NSLog(@"取消支付");
+        }
         return;
     }
     

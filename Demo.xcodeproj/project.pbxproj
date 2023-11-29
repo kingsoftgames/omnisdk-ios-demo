@@ -11,9 +11,19 @@
 		7D14C78B2A8F4A6E0060D188 /* OverseaController.m in Sources */ = {isa = PBXBuildFile; fileRef = 7D14C7892A8F4A6E0060D188 /* OverseaController.m */; };
 		7DC9C9802AD6ACBB0096CC38 /* sharePicture.png in Resources */ = {isa = PBXBuildFile; fileRef = 7DC9C97F2AD6ACBB0096CC38 /* sharePicture.png */; };
 		918CD5682A38793000FA428C /* BaseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD55F2A38793000FA428C /* BaseController.m */; };
-		918CD5692A38793000FA428C /* DomesticController.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD5602A38793000FA428C /* DomesticController.m */; };
+		918CD5692A38793000FA428C /* KSPassportController.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD5602A38793000FA428C /* KSPassportController.m */; };
 		918CD56A2A38793000FA428C /* ConsoleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD5612A38793000FA428C /* ConsoleView.m */; };
 		918CD56B2A38793000FA428C /* Utils.m in Sources */ = {isa = PBXBuildFile; fileRef = 918CD5642A38793000FA428C /* Utils.m */; };
+		91B4CFCC2B172F5A004603FD /* KSAdSDK.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91B4CFC52B172F49004603FD /* KSAdSDK.xcframework */; };
+		91B4CFCD2B172F5A004603FD /* KSAdSDK.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 91B4CFC52B172F49004603FD /* KSAdSDK.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		91B4CFCE2B172F5C004603FD /* OmniAPI.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91B4CFC12B172F48004603FD /* OmniAPI.xcframework */; };
+		91B4CFCF2B172F5C004603FD /* OmniAPI.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 91B4CFC12B172F48004603FD /* OmniAPI.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		91B4CFD02B172F5D004603FD /* OmniCore.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91B4CFC22B172F48004603FD /* OmniCore.xcframework */; };
+		91B4CFD12B172F5D004603FD /* OmniCore.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 91B4CFC22B172F48004603FD /* OmniCore.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		91B4CFD22B172F5E004603FD /* OmniPassport.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91B4CFC32B172F49004603FD /* OmniPassport.xcframework */; };
+		91B4CFD32B172F5E004603FD /* OmniPassport.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 91B4CFC32B172F49004603FD /* OmniPassport.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		91B4CFD42B172F60004603FD /* OmniTopOn.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 91B4CFC62B172F49004603FD /* OmniTopOn.xcframework */; };
+		91B4CFD52B172F60004603FD /* OmniTopOn.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 91B4CFC62B172F49004603FD /* OmniTopOn.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		BDEDEAA4B8038000A9294923 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = ABB145CC4D8BF1768348F922 /* main.m */; };
 		CAB4E13C17C9D694141A1102 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 78843F8971D3BF6514F1D854 /* Assets.xcassets */; };
 		F95B6E475E1FBB2461F77AC5 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 234BB9305CD21E8CB2DD1604 /* AppDelegate.m */; };
@@ -26,6 +36,11 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				91B4CFCD2B172F5A004603FD /* KSAdSDK.xcframework in Embed Frameworks */,
+				91B4CFCF2B172F5C004603FD /* OmniAPI.xcframework in Embed Frameworks */,
+				91B4CFD32B172F5E004603FD /* OmniPassport.xcframework in Embed Frameworks */,
+				91B4CFD12B172F5D004603FD /* OmniCore.xcframework in Embed Frameworks */,
+				91B4CFD52B172F60004603FD /* OmniTopOn.xcframework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -41,14 +56,20 @@
 		7D14C7892A8F4A6E0060D188 /* OverseaController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverseaController.m; sourceTree = "<group>"; };
 		7D14C78A2A8F4A6E0060D188 /* OverseaController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OverseaController.h; sourceTree = "<group>"; };
 		7DC9C97F2AD6ACBB0096CC38 /* sharePicture.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = sharePicture.png; sourceTree = "<group>"; };
-		918CD55C2A38793000FA428C /* DomesticController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DomesticController.h; sourceTree = "<group>"; };
+		918CD55C2A38793000FA428C /* KSPassportController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KSPassportController.h; sourceTree = "<group>"; };
 		918CD55F2A38793000FA428C /* BaseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BaseController.m; sourceTree = "<group>"; };
-		918CD5602A38793000FA428C /* DomesticController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DomesticController.m; sourceTree = "<group>"; };
+		918CD5602A38793000FA428C /* KSPassportController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KSPassportController.m; sourceTree = "<group>"; };
 		918CD5612A38793000FA428C /* ConsoleView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleView.m; sourceTree = "<group>"; };
 		918CD5622A38793000FA428C /* BaseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseController.h; sourceTree = "<group>"; };
 		918CD5632A38793000FA428C /* Utils.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utils.h; sourceTree = "<group>"; };
 		918CD5642A38793000FA428C /* Utils.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Utils.m; sourceTree = "<group>"; };
 		918CD5652A38793000FA428C /* ConsoleView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleView.h; sourceTree = "<group>"; };
+		91B4CFA92B15E106004603FD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
+		91B4CFC12B172F48004603FD /* OmniAPI.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OmniAPI.xcframework; sourceTree = "<group>"; };
+		91B4CFC22B172F48004603FD /* OmniCore.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OmniCore.xcframework; sourceTree = "<group>"; };
+		91B4CFC32B172F49004603FD /* OmniPassport.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OmniPassport.xcframework; sourceTree = "<group>"; };
+		91B4CFC52B172F49004603FD /* KSAdSDK.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = KSAdSDK.xcframework; sourceTree = "<group>"; };
+		91B4CFC62B172F49004603FD /* OmniTopOn.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; path = OmniTopOn.xcframework; sourceTree = "<group>"; };
 		ABB145CC4D8BF1768348F922 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		B5C9FA2C5F413B2E102EAB21 /* Base.lproj */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Base.lproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -58,6 +79,11 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				91B4CFCC2B172F5A004603FD /* KSAdSDK.xcframework in Frameworks */,
+				91B4CFCE2B172F5C004603FD /* OmniAPI.xcframework in Frameworks */,
+				91B4CFD02B172F5D004603FD /* OmniCore.xcframework in Frameworks */,
+				91B4CFD22B172F5E004603FD /* OmniPassport.xcframework in Frameworks */,
+				91B4CFD42B172F60004603FD /* OmniTopOn.xcframework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +93,7 @@
 		18FA0598227D3E7EB5276256 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				91B4CFA92B15E106004603FD /* StoreKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -79,9 +106,22 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		91B4CFC42B172F49004603FD /* OmniTopOn */ = {
+			isa = PBXGroup;
+			children = (
+				91B4CFC52B172F49004603FD /* KSAdSDK.xcframework */,
+				91B4CFC62B172F49004603FD /* OmniTopOn.xcframework */,
+			);
+			path = OmniTopOn;
+			sourceTree = "<group>";
+		};
 		E5BB6DC2E977B912CC1AF702 = {
 			isa = PBXGroup;
 			children = (
+				91B4CFC12B172F48004603FD /* OmniAPI.xcframework */,
+				91B4CFC22B172F48004603FD /* OmniCore.xcframework */,
+				91B4CFC32B172F49004603FD /* OmniPassport.xcframework */,
+				91B4CFC42B172F49004603FD /* OmniTopOn */,
 				234BB9305CD21E8CB2DD1604 /* AppDelegate.m */,
 				78843F8971D3BF6514F1D854 /* Assets.xcassets */,
 				B5C9FA2C5F413B2E102EAB21 /* Base.lproj */,
@@ -89,8 +129,8 @@
 				918CD55F2A38793000FA428C /* BaseController.m */,
 				918CD5652A38793000FA428C /* ConsoleView.h */,
 				918CD5612A38793000FA428C /* ConsoleView.m */,
-				918CD55C2A38793000FA428C /* DomesticController.h */,
-				918CD5602A38793000FA428C /* DomesticController.m */,
+				918CD55C2A38793000FA428C /* KSPassportController.h */,
+				918CD5602A38793000FA428C /* KSPassportController.m */,
 				7D14C78A2A8F4A6E0060D188 /* OverseaController.h */,
 				7D14C7892A8F4A6E0060D188 /* OverseaController.m */,
 				7D05DA5F2B10A784000827B2 /* SeayooAccountController.h */,
@@ -172,7 +212,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				918CD5692A38793000FA428C /* DomesticController.m in Sources */,
+				918CD5692A38793000FA428C /* KSPassportController.m in Sources */,
 				F95B6E475E1FBB2461F77AC5 /* AppDelegate.m in Sources */,
 				918CD5682A38793000FA428C /* BaseController.m in Sources */,
 				918CD56A2A38793000FA428C /* ConsoleView.m in Sources */,
