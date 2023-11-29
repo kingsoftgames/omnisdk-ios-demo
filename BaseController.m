@@ -203,7 +203,7 @@ typedef void (^DidSelectIndexBlock)(NSInteger);
         formatMsg = [formatMsg stringByAppendingFormat:@"result=%@", msg];
     }
     NSLog(@"%@",formatMsg);
-    [self.console updateLogWithLevel:INFO message:formatMsg];
+    [self.console updateLogWithLevel:NOTICE message:formatMsg];
 }
 
 - (BOOL)isLogin{
