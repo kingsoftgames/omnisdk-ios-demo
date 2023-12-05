@@ -7,12 +7,13 @@
 
 #import <UIKit/UIKit.h>
 #import <OmniAPI/OmniAPI-Swift.h>
+#import <OmniCore/OmniCore-Swift.h>
 #import "ConsoleView.h"
 #import "Utils.h"
 
 NS_ASSUME_NONNULL_BEGIN
 typedef void (^SelectProductBlock)(NSString* productPrice, NSString *paidPrice);
-@interface BaseController : UIViewController<OmniSDKCallBackDelegate>
+@interface BaseController : UIViewController<OmniSDKDelegate>
 @property (nonatomic, strong) ConsoleView *console;
 @property (nonatomic, strong) UITableView *tableView;
 @property (nonatomic, strong) UICollectionView *collectionView;

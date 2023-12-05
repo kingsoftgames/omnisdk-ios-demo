@@ -3,7 +3,7 @@
 //  OmniSDKDemo
 //
 //  Created by Zhang Gang on 2023/11/11.
-//
+//  世游通行证接入代码示例 (OmniSDKChannel=seayoo)
 
 #import "SeayooAccountController.h"
 

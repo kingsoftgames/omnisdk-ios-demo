@@ -9,6 +9,7 @@
 #define INFO @"info"
 #define WARNING @"warning"
 #define ERROR @"error"
+#define NOTICE @"notice"
 NS_ASSUME_NONNULL_BEGIN
 
 @interface ConsoleView : UIView

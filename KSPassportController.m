@@ -3,15 +3,15 @@
 //  OmniSDKDemo
 //
 //  Created by 程小康 on 2023/2/9.
-//
+//  金山通行证接入代码示例 (OmniSDKChannel=kspassport)
 
-#import "DomesticController.h"
+#import "KSPassportController.h"
 
-@interface DomesticController ()
+@interface KSPassportController ()
 
 @end
 
-@implementation DomesticController
+@implementation KSPassportController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -22,6 +22,8 @@
         @{@"用户信息":NSStringFromSelector(@selector(getUserInfo))},
         @{@"注销账号":NSStringFromSelector(@selector(deleteAccount))},
         @{@"用户中心":NSStringFromSelector(@selector(openUserInfo))},
+        @{@"预加载广告":NSStringFromSelector(@selector(preLoadAD))},
+        @{@"显示广告":NSStringFromSelector(@selector(showAD))},
         @{@"分享":NSStringFromSelector(@selector(share))}
     ];
     [self initSDK];
@@ -101,6 +103,44 @@
     opt.text = @"我是测试内容";
     opt.platform = OmniSDKSocialSharePlatformSystem;
     [[OmniSDKv3 shared] socialShareWithController:self options:opt];
+}
+
+// 预加载广告
+- (void)preLoadAD{
+    OmniSDKAdOptions *option = [[OmniSDKAdOptions alloc] init];
+    option.placementId = @"test_ios_RV_1";
+    [[OmniSDKv3 shared] preloadAdWithController:self options:option callback:^(OmniSDKPreloadAdResult * _Nullable result, OmniSDKError * _Nullable error) {
+        if (error != nil) {
+            // 失败
+            NSInteger code = error.code; // 错误码
+            NSString *message = error.message; // 错误信息
+            NSString *detailMessage = error.description; // 错误详细信息
+            [self logCallBack:@"预加载广告失败" msg:message];
+            return;
+        }
+        NSString *placementId = result.placementId;
+        [self logCallBack:@"预加载广告" msg:placementId];
+    }];
+}
+
+// 显示广告
+- (void)showAD{
+    OmniSDKAdOptions *option = [[OmniSDKAdOptions alloc] init];
+    option.placementId = @"test_ios_RV_1";
+    [[OmniSDKv3 shared] showAdWithController:self options:option callback:^(OmniSDKShowAdResult * _Nullable result, OmniSDKError * _Nullable error) {
+        if (error != nil) {
+            // 失败
+            NSInteger code = error.code; // 错误码
+            NSString *message = error.message; // 错误信息
+            NSString *detailMessage = error.description; // 错误详细信息
+            [self logCallBack:@"显示广告失败" msg:message];
+            return;
+        }
+        OmniSDKShowAdStatus status = result.status;
+        NSString *adToken = result.token;
+        NSString *str = [NSString stringWithFormat:@"广告显示状态=%d token=%@", status, adToken];
+        [self logCallBack:@"显示广告成功" msg:str];
+    }];
 }
 
 #pragma mark - Other Function

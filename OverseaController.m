@@ -3,7 +3,7 @@
 //  OmniSDKDemo
 //
 //  Created by 程小康 on 2023/4/14.
-//
+//  海外 SDK 接入代码示例 (OmniSDKChannel=oversea)
 
 #import "OverseaController.h"
 

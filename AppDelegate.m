@@ -6,7 +6,7 @@
 //
 
 #import "AppDelegate.h"
-#import "DomesticController.h"
+#import "KSPassportController.h"
 #import "OverseaController.h"
 #import "SeayooAccountController.h"
 #import <OmniAPI/OmniAPI-Swift.h>
@@ -25,7 +25,7 @@
     UIViewController *vc;
     switch ([Utils getChannelType]) {
         case Passport:
-            vc = [[DomesticController alloc] init];
+            vc = [[KSPassportController alloc] init];
             break;
         case Oversea:
             vc = [[OverseaController alloc] init];
